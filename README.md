@@ -1,15 +1,7 @@
-# Clubwho CSGO Layouts
+# Basic CSGO Layouts
 
 ![Full HUD](./media/FullHUD.jpg)
 Custom CSGO HUD/Layouts that I designed.
-
-## Before using
-
-This bundle is not intended to be used verbatim. I am open-sourcing this bundle in hopes that people will use it as a learning tool and base to build from, rather than just taking and using it wholesale in their own productions.
-
-To reiterate, **please don't just download and use this bundle as-is**. Build something new from it.
-
-**You can build a HUD using any framework and any paradigm you want. I just use this because I was learning it and not everything in it is perfect.**
 
 ## Getting Started
 
@@ -32,7 +24,7 @@ A GitHub action is planned to be made. Currently you have to manually build
 
    ```sh
    cd nodecg/bundles
-   git clone https://github.com/EwanLyon/clubwho-csgo-graphics.git
+   git clone https://github.com/EwanLyon/basic-csgo-graphics.git
    ```
 
 2. Install NPM packages

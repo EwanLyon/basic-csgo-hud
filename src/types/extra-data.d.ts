@@ -23,9 +23,9 @@ export interface TeamData {
 }
 
 interface Grenades {
-	he: number;
-	flash: number;
-	smoke: number;
-	fire: number;
-	decoy: number;
+	he: number,
+	flash: number,
+	smoke: number,
+	fire: number,
+	decoy: number
 }

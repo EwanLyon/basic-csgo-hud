@@ -29,8 +29,6 @@ const PlayerName = styled(FitText)`
 
 	color: ${(props: PlayerNameProps): string => (props.dead ? 'rgba(255, 255, 255, 0.7)' : '#FFF')};
 
-	text-shadow: 0 0 5px #000;
-
 	font-size: 25px;
 	line-height: 38px;
 
@@ -46,8 +44,7 @@ const HealthText = styled.span`
 	text-align: center;
 	width: 37px;
 	font-size: 21px;
-	color: #b9b9b9;
-	text-shadow: 0 0 5px #000;
+	color: #dadada;
 	margin: 0 10px;
 	font-weight: bold;
 	z-index: 2;

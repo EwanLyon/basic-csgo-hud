@@ -20,7 +20,7 @@
   ],
   "nodecg": {
     "bundleDependencies": {
-      "nodecg-csgo-manager": "^0.3.0"
+      "nodecg-csgo-manager": "^0.5.0"
     },
     "compatibleRange": "^1.7.1",
     "dashboardPanels": [

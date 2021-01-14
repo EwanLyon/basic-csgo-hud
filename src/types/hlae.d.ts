@@ -1,48 +1,40 @@
-export interface BaseGameEvent {
-	clientTime: number;
-	round: number;
+export interface GameEvent {
+    name: string;
+    clientTime: number;
+    keys: Object;
+    round: number;
 }
 
-export interface PlayerDeath extends BaseGameEvent {
-	name: "player_death";
-	keys: PlayerDeathKeys;
+export interface PlayerDeath {
+    name:       string;
+    clientTime: number;
+    keys:       PlayerDeathKeys;
+    round: number;
 }
 
 interface PlayerDeathKeys {
-	userid: Userid;
-	attacker: Userid;
-	assister: Userid;
-	assistedflash: boolean;
-	weapon: string;
-	weaponItemid: string;
-	weaponFauxitemid: string;
-	weaponOriginalownerXuid: string;
-	headshot: boolean;
-	dominated: number;
-	revenge: number;
-	wipe: number;
-	penetrated: number;
-	noreplay: boolean;
-	noscope: boolean;
-	thrusmoke: boolean;
-	attackerblind: boolean;
+    userid:                  Assister;
+    attacker:                Assister;
+    assister:                Assister;
+    assistedflash:           boolean;
+    weapon:                  string;
+    weaponItemid:            string;
+    weaponFauxitemid:        string;
+    weaponOriginalownerXuid: string;
+    headshot:                boolean;
+    dominated:               number;
+    revenge:                 number;
+    wipe:                    number;
+    penetrated:              number;
+    noreplay:                boolean;
+    noscope:                 boolean;
+    thrusmoke:               boolean;
+    attackerblind:           boolean;
 }
 
-export interface WeaponFire extends BaseGameEvent {
-	name: "weapon_fire";
-	keys: WeaponFireKeys;
-}
-
-interface WeaponFireKeys {
-    userid:   Userid;
-    weapon:   string;
-    silenced: boolean;
-}
-
-interface Userid {
+interface Assister {
     value:     number;
     xuid:      string;
     eyeOrigin: number[];
     eyeAngles: number[];
 }
-

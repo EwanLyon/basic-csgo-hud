@@ -34,7 +34,6 @@ const HealthBarInfo = styled.div`
 const PlayerName = styled(FitText)`
 	justify-content: flex-start !important;
 	color: #fff;
-	text-shadow: 0 0 5px #000;
 	font-size: 40px;
 	line-height: 52px;
 	max-width: 400px;
@@ -52,7 +51,6 @@ const HealthArmourRaw = styled.div`
 	font-size: 40px;
 	font-weight: bold;
 	margin: 0 12px;
-	text-shadow: 0 0 5px #000;
 `;
 
 const ArmourImg = styled(Armour)`
