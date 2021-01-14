@@ -11,12 +11,12 @@ import { DummyProducer } from '../../extensions/dummyData';
 import { Producer } from '../../types/producer';
 import { stateType } from '../replicant-store';
 
-import { ScoreBug } from '../elements/fui/score-bug/score-bug';
-import { Player } from '../elements/fui/player/player';
-import { CurrentPlayer } from '../elements/fui/current-player/current-player';
-import { TeamEco } from '../elements/fui/in-game-stats/team-eco';
-import { TeamNade } from '../elements/fui/in-game-stats/team-nades';
-import { Killfeed } from '../elements/fui/killfeed/killfeed';
+import { ScoreBug } from '../elements/hud/score-bug/score-bug';
+import { Player } from '../elements/hud/player/player';
+import { CurrentPlayer } from '../elements/hud/current-player/current-player';
+import { TeamEco } from '../elements/hud/in-game-stats/team-eco';
+import { TeamNade } from '../elements/hud/in-game-stats/team-nades';
+import { Killfeed } from '../elements/hud/killfeed/killfeed';
 
 const Container = styled.div`
 	position: absolute;

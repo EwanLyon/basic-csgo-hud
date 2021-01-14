@@ -19,7 +19,7 @@ const ContainerPlayerIcon = styled.div`
 	line-height: ${playerIconWidth}px;
 	color: #000;
 	font-weight: bold;
-	font-size: 20px;
+	font-size: 25px;
 	box-shadow: 0 0 0 ${(props: PlayerIconStyle) => (props.observed ? '5' : '0')}px white;
 `;
 

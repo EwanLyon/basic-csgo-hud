@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { store } from '../replicant-store';
 
-import { Map as MapComp } from '../elements/fui/map/map';
+import { Map as MapComp } from '../elements/hud/map/map';
 import { useReplicant } from 'use-nodecg';
 
 const Container = styled.div`

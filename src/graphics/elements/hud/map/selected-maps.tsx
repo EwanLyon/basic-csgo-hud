@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { keyframes, css } from 'styled-components';
 
-import { ExtraMapData } from '../../../../types/map-data';
+import { MapInfo } from '../../../../types/matches';
 import { DesktopWindows } from '@material-ui/icons';
 import { TeamData } from '../../../../types/extra-data';
 
@@ -83,10 +83,18 @@ const FadeText2 = styled(FadeText1)`
 `;
 
 interface Props {
-	mapData: ExtraMapData[];
+	mapData: MapInfo[];
 	teamOne: TeamData;
 	teamTwo: TeamData;
 	swapTeams?: boolean;
+}
+
+function addScores(map: MapInfo, teamB = false) {
+	if (teamB) {
+		return map.firstHalf.teamB + map.secondHalf.teamB + (map?.ot?.teamB || 0);
+	} else {
+		return map.firstHalf.teamA + map.secondHalf.teamA + (map?.ot?.teamA || 0);
+	}
 }
 
 export const SelectedMaps: React.FC<Props> = React.memo((props: Props) => {
@@ -100,36 +108,35 @@ export const SelectedMaps: React.FC<Props> = React.memo((props: Props) => {
 			return undefined;
 		}
 
-		const teamImage = map.team === props.teamOne.name ? props.teamOne.teamURL : props.teamTwo.teamURL;
+		const teamImage = map.teamVeto === props.teamOne.name ? props.teamOne.teamURL : props.teamTwo.teamURL;
+		console.log(map.teamVeto, props.teamOne.name);
 		const mapName = map.map.replace('de_', '');
 
 		let matchScore = '';
 		let matchWinnerLogo = teamImage;
-		if (typeof map.teamOneScore === 'number' && typeof map.teamTwoScore === 'number') {
-			if (map.teamOneScore >= 16 || map.teamTwoScore >= 16) {
+			if (addScores(map) >= 16 || addScores(map, true) >= 16) {
 				matchScore = props.swapTeams
-					? `${map.teamTwoScore}:${map.teamOneScore}`
-					: `${map.teamOneScore}:${map.teamTwoScore}`;
+					? `${addScores(map, true)}:${addScores(map)}`
+					: `${addScores(map)}:${addScores(map, true)}`;
 
-				if (map.teamOneScore > map.teamTwoScore) {
+				if (addScores(map) > addScores(map, true)) {
 					matchWinnerLogo = props.teamOne.teamURL;
 				} else {
 					matchWinnerLogo = props.teamTwo.teamURL;
 				}
 			}
-		}
 
 		return (
 			<SetMap key={index}>
 				{matchScore === '' || matchWinnerLogo === teamImage ? (
-					map.team === 'Server' ? (
+					map.teamVeto === 'Server' ? (
 						<ServerImage />
 					) : (
 						<TeamImage src={teamImage} />
 					)
 				) : (
 					<SingleGrid>
-						{map.team === 'Server' ? (
+						{map.teamVeto === 'Server' ? (
 							<FadeServerImage />
 						) : (
 							<FadeImage1 src={teamImage} />

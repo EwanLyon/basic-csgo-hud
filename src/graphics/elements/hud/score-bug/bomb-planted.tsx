@@ -11,7 +11,6 @@ const Container = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	box-shadow: inset 0 0 10px 4px #eebe11;
 	border: 1px solid #eebe11;
 	background: rgba(0, 0, 0, 0.5);
 `;
@@ -158,9 +157,7 @@ export const BombPlanted: React.FC<Props> = React.forwardRef(
 		}
 
 		const plantColour: React.CSSProperties = {
-			border: `1px solid #fff`,
-			boxSizing: 'border-box',
-			boxShadow: `inset 0 0 10px #fff`,
+			border: `1px solid #fff`, 
 			background: 'rgba(0, 0, 0, 0.5)',
 		};
 
@@ -192,7 +189,6 @@ export const BombPlanted: React.FC<Props> = React.forwardRef(
 						)
 							? ''
 							: 'none',
-						boxShadow: `inset 0 0 10px #fff`,
 						boxSizing: 'border-box',
 					}}
 				/>

@@ -2,6 +2,7 @@ import { createStore } from 'redux';
 import clone from 'clone';
 import { ReplicantBrowser } from '../../../../types/browser';
 import * as DummyData from '../extensions/dummyData';
+import { Match } from '../types/matches';
 
 const replicantNames = [
 	'game',
@@ -17,7 +18,8 @@ const replicantNames = [
 	'gameSettings',
 	'matchKills',
 	'mapGrenades',
-	'mapInfo',
+	'matches',
+	'currentMatch',
 	'mapPlayers',
 	'interpMapPlayers'
 ];
@@ -37,7 +39,8 @@ const initialState = {
 	gameSettings: DummyData.gameSettings,
 	matchKills: [],
 	mapGrenades: DummyData.DummyGrenadesAll,
-	mapInfo: [],
+	matches: [],
+	currentMatch: undefined as Match | undefined,
 	mapPlayers: DummyData.MapPostions,
 	interpMapPlayers: DummyData.InterpMapPositions,
 };

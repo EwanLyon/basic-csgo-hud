@@ -14,7 +14,7 @@ import { BundleStatus } from '../types/bundle-status';
 import { PlayerDataAll, TeamData as ITeamData } from '../types/extra-data';
 import { Producer } from '../types/producer';
 import { TeamsPreset } from '../types/team-preset';
-import { MapPlayerData } from '../types/map-data';
+import { MapPlayerData } from '../types/map-player';
 
 export const match: Map = {
 	mode: 'competitive',
@@ -186,8 +186,8 @@ export const DummyGrenadesAll: CSGOGrenadesAll = {
 };
 
 export const DummyTeamsPreset: TeamsPreset = {
-	teams: [],
-	players: [],
+	teams: {},
+	players: {},
 };
 
 export const game: CSGOOutput = {

@@ -51,7 +51,7 @@ export const Map: React.FC<Props> = (props: Props) => {
 	const bomb = useSelector((state: stateType) => state.bomb);
 	const mapPhase = useSelector((state: stateType) => state.phase.phase); // Just to reset flashFragGrenades elements
 	const observedPlayerID = useSelector((state: stateType) => state.observingPlayer.steamid);
-	const mapData = useSelector((state: stateType) => state.mapInfo);
+	const mapData = useSelector((state: stateType) => state.currentMatch);
 	const teamOne = useSelector((state: stateType) => state.teamOne);
 	const teamTwo = useSelector((state: stateType) => state.teamTwo);
 	const grenades = useSelector((state: stateType) => state.mapGrenades);
@@ -296,7 +296,7 @@ export const Map: React.FC<Props> = (props: Props) => {
 					{flashFragGrenades}
 				</PlayerHolder>
 			</div>
-			<SelectedMaps mapData={mapData} teamOne={teamOne} teamTwo={teamTwo} />
+			{mapData && <SelectedMaps mapData={mapData.maps} teamOne={teamOne} teamTwo={teamTwo} />}
 		</MapContainer>
 	);
 };

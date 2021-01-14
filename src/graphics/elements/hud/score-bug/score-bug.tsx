@@ -45,7 +45,7 @@ const OTText = styled(Round)`
 
 const BombPlantedStyled = styled(BombPlanted)`
 	position: absolute;
-	top: 135px;
+	top: 118px;
 `;
 
 interface Props {
@@ -53,7 +53,7 @@ interface Props {
 }
 
 const bombConditions = ['planting', 'planted', 'defusing', 'defused', 'exploded'];
-const bombShowPos = 110;
+const bombShowPos = 118;
 const bombHidePos = 40;
 
 export const ScoreBug: React.FunctionComponent<Props> = (props: Props) => {
