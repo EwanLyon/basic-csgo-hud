@@ -72,7 +72,6 @@ const RealNamePlayerName = styled(FitText)`
 		transform-origin: left !important;
 	}
 	justify-content: flex-start !important;
-	text-shadow: 0 0 5px #000;
 `;
 
 const RealName = styled(FitText)`
@@ -80,7 +79,6 @@ const RealName = styled(FitText)`
 		transform-origin: left !important;
 	}
 	justify-content: flex-start !important;
-	text-shadow: 0 0 5px #000;
 `;
 
 const CountryFlagWithRealName = styled(Twemoji)`
