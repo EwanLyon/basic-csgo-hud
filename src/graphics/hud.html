@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>HUD</title>
+		<style>
+			body {
+				margin: 0;
+				--t-col: #c29933; /* #F1CA3D */
+				--ct-col: #4078a0; /* #59B9F5 */
+				--bg-col: rgba(0, 0, 0, 0.8);
+			}
+
+			@keyframes firing-anim {
+				from {opacity: 1}
+				to {opacity: 0}
+			}
+
+			.firing-animation {
+				animation: firing-anim 0.5s forwards;
+			}
+
+			
+		</style>
+	</head>
+	<body>
+		<div id="game"></div>
+
+		<script src="hud/App.tsx"></script>
+	</body>
+</html>
