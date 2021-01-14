@@ -1,7 +1,7 @@
-# Basic CSGO Layouts
+# Basic CSGO Graphics
 
 ![Full HUD](./media/FullHUD.jpg)
-Custom CSGO HUD/Layouts that I designed.
+Basic CSGO HUD that I designed to be basic enough so that you can modify it.
 
 ## Getting Started
 
