@@ -1,5 +1,8 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { Team } from '../../../../types/team-preset';
+import { stateType } from '../../../replicant-store';
 
 import { FitText, Text as FitTextText } from '../../atoms/fit-text';
 
@@ -63,8 +66,7 @@ const MatchWinsBox = styled.div`
 const MatchWins = styled.div`
 	width: ${matchWinsSize}px;
 	height: ${matchWinsSize}px;
-	background: ${(props: MatchWin): string =>
-		props.win ? (props.ct ? 'var(--ct-col)' : 'var(--t-col)') : ''};
+	background: ${(props: MatchWin): string => (props.win ? (props.ct ? 'var(--ct-col)' : 'var(--t-col)') : '')};
 	border: 1px solid ${(props: MatchWin): string => (props.ct ? 'var(--ct-col)' : 'var(--t-col)')};
 `;
 
@@ -83,28 +85,46 @@ interface CTProps {
 interface Both extends CTProps, OnRightProps {}
 
 interface Props {
+	displayingTeam: Team | undefined;
+	oppositeTeam: Team | undefined;
 	right?: boolean;
 	ct?: boolean;
-	team: string;
-	oppositionTeamName: string;
 	score: string;
-	teamImageURL: string;
-	oppositionTeamImageURL: string;
 	matchesWonThisSeries: number;
 }
 
 export const Wing: React.FunctionComponent<Props> = React.memo((props: Props) => {
+	const matchType = useSelector((state: stateType) => state.currentMatch?.matchType);
+
+	let numberOfBoxes = 0;
+
+	switch (matchType) {
+		case 'bo1':
+			numberOfBoxes = 1;
+			break;
+		case 'bo3':
+			numberOfBoxes = 2;
+			break;
+		case 'bo5':
+			numberOfBoxes = 3;
+			break;
+		default:
+			break;
+	}
+
+	// Fill match boxes
+	const matchWinsBoxes: JSX.Element[] = [];
+	for (let i = 0; i < numberOfBoxes; i++) {
+		matchWinsBoxes.push(<MatchWins key={i} win={props.matchesWonThisSeries >= i + 1} ct={props.ct} />);
+	}
+
 	return (
 		<Container right={props.right} ct={props.ct}>
 			<SingleGrid>
 				{/* Super hacky way to get both wings the same width.
 				Put an invisible verison of the other team behind it */}
-				<TeamLogo src={props.teamImageURL} right={props.right} />
-				<TeamLogo
-					src={props.oppositionTeamImageURL}
-					right={props.right}
-					style={{ opacity: 0 }}
-				/>
+				<TeamLogo src={props.displayingTeam?.logo || ''} right={props.right} />
+				<TeamLogo src={props.oppositeTeam?.logo || ''} right={props.right} style={{ opacity: 0 }} />
 			</SingleGrid>
 
 			<SingleGrid>
@@ -112,19 +132,16 @@ export const Wing: React.FunctionComponent<Props> = React.memo((props: Props) =>
 				Put an invisible verison of the other team behind it */}
 				<TeamName
 					style={{ color: 'rgba(0, 0, 0, 0)', textShadow: 'none' }}
-					text={props.oppositionTeamName}
+					text={props.oppositeTeam?.name || ''}
 				/>
 
-				<TeamName ct={props.ct} text={props.team} />
+				<TeamName ct={props.ct} text={props.displayingTeam?.name || ''} />
 			</SingleGrid>
 
 			<Score right={props.right} ct={props.ct}>
 				{props.score}
 			</Score>
-			<MatchWinsBox>
-				<MatchWins win={props.matchesWonThisSeries >= 1} ct={props.ct} />
-				<MatchWins win={props.matchesWonThisSeries >= 2} ct={props.ct} />
-			</MatchWinsBox>
+			<MatchWinsBox>{matchWinsBoxes}</MatchWinsBox>
 		</Container>
 	);
 });

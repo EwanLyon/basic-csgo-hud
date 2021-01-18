@@ -64,6 +64,7 @@ export const ScoreBug: React.FunctionComponent<Props> = (props: Props) => {
 	const teamTwo = useSelector((state: stateType) => state.teamTwo);
 	const swapTeams = useSelector((state: stateType) => state.swapTeams);
 	const allPlayers = useSelector((state: stateType) => state.allPlayers);
+	const currentMatch = useSelector((state: stateType) => state.currentMatch);
 
 	const [playerKit, setPlayerKit] = useState(false);
 	const time = parseFloat(phase.phase_ends_in);
@@ -98,17 +99,14 @@ export const ScoreBug: React.FunctionComponent<Props> = (props: Props) => {
 	}
 
 	const bombAnimation = (stage: string): void => {
-		if (tl && tl.current) {
+		if (tl.current) {
 			const currentTime = tl.current.time();
 			const labelTime = tl.current.labels[stage];
-			console.log('current time', currentTime);
 
 			tl.current.resume();
 			if (currentTime >= labelTime) {
-				console.log('jumping to ' + stage, labelTime);
 				tl.current.play(labelTime);
 			} else {
-				console.log('tweening to ' + stage, labelTime);
 				gsap.to(tl.current, {
 					duration: 0.3,
 					time: labelTime,
@@ -188,12 +186,10 @@ export const ScoreBug: React.FunctionComponent<Props> = (props: Props) => {
 		<Container style={props.style}>
 			<Grid container direction={swapTeams ? 'row-reverse' : 'row'} justify="center" alignItems="center">
 				<Wing
-					teamImageURL={teamOne.teamURL}
-					oppositionTeamImageURL={teamTwo.teamURL}
+					displayingTeam={currentMatch?.teamA}
+					oppositeTeam={currentMatch?.teamB}
 					ct={ct}
 					right={swapTeams}
-					team={teamOne.name}
-					oppositionTeamName={teamTwo.name}
 					score={teamOne.score.toString()}
 					matchesWonThisSeries={teamOne.matchesWonThisSeries}
 				/>
@@ -202,12 +198,10 @@ export const ScoreBug: React.FunctionComponent<Props> = (props: Props) => {
 					{otText ? otText : <Round text={`${currentRound + 1}/30`} />}
 				</Hub>
 				<Wing
-					teamImageURL={teamTwo.teamURL}
-					oppositionTeamImageURL={teamOne.teamURL}
+					displayingTeam={currentMatch?.teamB}
+					oppositeTeam={currentMatch?.teamA}
 					ct={!ct}
 					right={!swapTeams}
-					team={teamTwo.name}
-					oppositionTeamName={teamOne.name}
 					score={teamTwo.score.toString()}
 					matchesWonThisSeries={teamTwo.matchesWonThisSeries}
 				/>
