@@ -21,15 +21,38 @@ const Container = styled.div`
 
 const TitleText = styled.span`
 	color: #ddd;
-	font-size: 18px;
+	font-size: 15px;
 	white-space: nowrap;
 `;
 
 const MoneyText = styled.span`
 	display: block;
-	font-size: 30px;
+	font-size: 25px;
 	margin-top: -6px;
 `;
+
+const LossContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	height: 100%;
+`;
+
+// So the flex spacing has an offset for the loss container
+const EmptyContainer = styled.div`
+	width: 3px;
+`;
+
+const LossBonusBox = styled.div`
+	width: 15px;
+	height: 15px;
+	background: ${(props: LossBonusBoxProps): string =>
+		props.active ? (props.ct ? 'var(--ct-col)' : 'var(--t-col)') : '#252525'};
+`;
+
+interface LossBonusBoxProps extends CT {
+	active?: boolean;
+}
 
 interface CT {
 	ct?: boolean;
@@ -45,16 +68,12 @@ interface Props {
 }
 
 export const TeamEco: React.FC<Props> = (props: Props) => {
-	const teamData = useSelector((state: stateType) =>
-		props.teamTwo ? state.teamTwo : state.teamOne,
-	);
+	const teamData = useSelector((state: stateType) => (props.teamTwo ? state.teamTwo : state.teamOne));
 	const tl = useRef<gsap.core.Timeline>();
 	const containerRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		tl.current = gsap.timeline({ paused: true });
-
-		// Console.log('Initialising InGameStat animation');
 
 		tl.current.addLabel('Show');
 
@@ -64,12 +83,13 @@ export const TeamEco: React.FC<Props> = (props: Props) => {
 			paddingLeft: 0,
 			paddingRight: 0,
 		});
-		tl.current.to(containerRef.current, 0.5, { opacity: 1 });
-		tl.current.to(containerRef.current, 1, {
+		tl.current.to(containerRef.current, { opacity: 1, duration: 0.5 });
+		tl.current.to(containerRef.current, {
 			ease: 'expo.out',
 			width: 349,
 			paddingLeft: 5,
 			paddingRight: 5,
+			duration: 1,
 		});
 
 		tl.current.addPause('+=0.1');
@@ -82,42 +102,25 @@ export const TeamEco: React.FC<Props> = (props: Props) => {
 			paddingLeft: 5,
 			paddingRight: 5,
 		});
-		tl.current.to(containerRef.current, 1, {
+		tl.current.to(containerRef.current, {
 			ease: 'expo.out',
 			width: 0,
 			paddingLeft: 0,
 			paddingRight: 0,
+			duration: 1,
 		});
-		tl.current.to(containerRef.current, 0.5, { opacity: 0 });
+		tl.current.to(containerRef.current, { opacity: 0, duration: 0.5 });
 	}, []);
 
 	const goToAnimation = (stage: string): void => {
-		if (tl && tl.current) {
-			const currentTime = tl.current.time();
+		if (tl.current) {
 			const labelTime = tl.current.labels[stage];
-			// Console.log('current time', currentTime);
-
-			tl.current.resume();
-			if (currentTime >= labelTime) {
-				// Console.log('jumping to ' + stage, labelTime);
-				tl.current.play(labelTime);
-			} else {
-				// Console.log('tweening to ' + stage, labelTime);
-				gsap.to(tl.current, {
-					duration: 0.3,
-					time: labelTime,
-					ease: 'none',
-					onComplete: () => {
-						if (tl && tl.current) {
-							tl.current.resume();
-						}
-					},
-				});
-			}
+			tl.current.play(labelTime);
 		}
 	};
 
 	useEffect(() => {
+		console.log(props.show);
 		if (props.show) {
 			goToAnimation('Show');
 		} else {
@@ -130,10 +133,22 @@ export const TeamEco: React.FC<Props> = (props: Props) => {
 			<Grid
 				container
 				direction={props.right ? 'row-reverse' : 'row'}
-				justify="center"
+				justify="space-between"
 				alignItems="center"
-				spacing={4}
-				style={{ overflow: 'hidden', flexWrap: 'nowrap' }}>
+				style={{ overflow: 'hidden', flexWrap: 'nowrap', height: '100%' }}>
+				<LossContainer>
+					<LossBonusBox active={teamData.consecutiveRoundLosses >= 4} ct={props.ct} />
+					<LossBonusBox active={teamData.consecutiveRoundLosses >= 3} ct={props.ct} />
+					<LossBonusBox active={teamData.consecutiveRoundLosses >= 2} ct={props.ct} />
+					<LossBonusBox active={teamData.consecutiveRoundLosses >= 1} ct={props.ct} />
+				</LossContainer>
+				<Grid item style={{ textAlign: props.right ? 'right' : 'left' }}>
+					<TitleText>Loss Bonus</TitleText>
+					<MoneyText>
+						<span style={{ fontSize: 15 }}>$</span>
+						{Math.max(teamData.consecutiveRoundLosses * 500 + 1400)}
+					</MoneyText>
+				</Grid>
 				<Grid item style={{ textAlign: props.right ? 'right' : 'left' }}>
 					<TitleText>Team Money</TitleText>
 					<MoneyText>
@@ -148,6 +163,7 @@ export const TeamEco: React.FC<Props> = (props: Props) => {
 						{teamData.equipmentValue}
 					</MoneyText>
 				</Grid>
+				<EmptyContainer />
 			</Grid>
 		</Container>
 	);

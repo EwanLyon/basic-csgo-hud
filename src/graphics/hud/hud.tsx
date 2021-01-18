@@ -91,14 +91,11 @@ function currentTeamSide(round: number): boolean {
 }
 
 export const HUD: React.FunctionComponent = () => {
-	// Const phase = useSelector((state: stateType) => state.phase);
 	const allPlayers = useSelector((state: stateType) => state.allPlayers);
 	const swapTeams = useSelector((state: stateType) => state.swapTeams);
 	const matchStats = useSelector((state: stateType) => state.matchStats);
 	const phase = useSelector((state: stateType) => state.phase);
-	// Const timestamp = useSelector((state: stateType) => state.game.provider.timestamp);
 	const gameSettings = useSelector((state: stateType) => state.gameSettings);
-	// Console.log(`CSGO ${timestamp} | Real ${~~(+new Date() / 1000)} | Delay ${timestamp - ~~(+new Date() / 1000)}`);
 
 	const [producerRep] = useReplicant<Producer, Producer>('producer', DummyProducer);
 	const scoreBugRef = useRef<HTMLDivElement>(null);
@@ -161,6 +158,8 @@ export const HUD: React.FunctionComponent = () => {
 		setScoreBugWidth(scoreBugRef.current.offsetWidth);
 	}
 
+	console.log(producerRep.teamEco || localShowEco);
+
 	return (
 		<Container>
 			<div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
@@ -174,39 +173,29 @@ export const HUD: React.FunctionComponent = () => {
 
 			<LeftGameStats>
 				<TeamEco
-					show={producerRep?.teamEco || localShowEco}
-					// Show
+					show={producerRep.teamEco || localShowEco}
 					ct={ct}
-					// EquipmentValue={swapTeams ? teamTwoRep.equipmentValue : teamOneRep.equipmentValue}
-					// teamMoney={swapTeams ? teamTwoRep.totalMoney : teamOneRep.totalMoney}
 					teamTwo={swapTeams}
 				/>
 				<TeamNade
 					ct={ct}
-					// TeamNades={swapTeams ? teamTwoRep.grenades : teamOneRep.grenades}
 					teamTwo={swapTeams}
-					show={producerRep?.teamNades || localShowNades}
-					// Show
+					show={producerRep.teamNades || localShowNades}
 				/>
 			</LeftGameStats>
 
 			<RightGameStats>
 				<TeamEco
 					show={producerRep?.teamEco || localShowEco}
-					// Show
 					ct={!ct}
 					right
-					// EquipmentValue={swapTeams ? teamOneRep.equipmentValue : teamTwoRep.equipmentValue}
-					// teamMoney={swapTeams ? teamOneRep.totalMoney : teamTwoRep.totalMoney}
 					teamTwo={!swapTeams}
 				/>
 				<TeamNade
 					ct={!ct}
 					right
-					// TeamNades={swapTeams ? teamOneRep.grenades : teamTwoRep.grenades}
 					show={producerRep?.teamNades || localShowNades}
 					teamTwo={!swapTeams}
-					// Show
 				/>
 			</RightGameStats>
 
