@@ -29,6 +29,8 @@ const Score = styled.span`
 	text-align: center;
 	color: ${(props: Both): string => (props.ct ? 'var(--ct-col)' : 'var(--t-col)')};
 	margin: ${(props: Both): string => (props.right ? '0 39px 0 0' : '0 0 0 39px')};
+	height: 72px;
+    line-height: 68px;
 `;
 
 const SingleGrid = styled.div`
