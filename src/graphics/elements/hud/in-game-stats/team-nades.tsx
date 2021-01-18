@@ -61,8 +61,6 @@ export const TeamNade: React.FC<Props> = (props: Props) => {
 	useEffect(() => {
 		tl.current = gsap.timeline({ paused: true });
 
-		// Console.log('Initialising InGameStat animation');
-
 		tl.current.addLabel('Show');
 
 		tl.current.set(containerRef.current, {
@@ -71,12 +69,13 @@ export const TeamNade: React.FC<Props> = (props: Props) => {
 			paddingLeft: 0,
 			paddingRight: 0,
 		});
-		tl.current.to(containerRef.current, 0.5, { opacity: 1 });
-		tl.current.to(containerRef.current, 1, {
+		tl.current.to(containerRef.current, { opacity: 1, duration: 0.5 });
+		tl.current.to(containerRef.current, {
 			ease: 'expo.out',
 			width: 349,
 			paddingLeft: 5,
 			paddingRight: 5,
+			duration: 1,
 		});
 
 		tl.current.addPause('+=0.1');
@@ -89,38 +88,20 @@ export const TeamNade: React.FC<Props> = (props: Props) => {
 			paddingLeft: 5,
 			paddingRight: 5,
 		});
-		tl.current.to(containerRef.current, 1, {
+		tl.current.to(containerRef.current, {
 			ease: 'expo.out',
 			width: 0,
 			paddingLeft: 0,
 			paddingRight: 0,
+			duration: 1,
 		});
-		tl.current.to(containerRef.current, 0.5, { opacity: 0 });
+		tl.current.to(containerRef.current, { opacity: 0, duration: 0.5 });
 	}, []);
 
 	const goToAnimation = (stage: string): void => {
-		if (tl && tl.current) {
-			const currentTime = tl.current.time();
+		if (tl.current) {
 			const labelTime = tl.current.labels[stage];
-			// Console.log('current time', currentTime);
-
-			tl.current.resume();
-			if (currentTime >= labelTime) {
-				// Console.log('jumping to ' + stage, labelTime);
-				tl.current.play(labelTime);
-			} else {
-				// Console.log('tweening to ' + stage, labelTime);
-				gsap.to(tl.current, {
-					duration: 0.3,
-					time: labelTime,
-					ease: 'none',
-					onComplete: () => {
-						if (tl && tl.current) {
-							tl.current.resume();
-						}
-					},
-				});
-			}
+			tl.current.play(labelTime);
 		}
 	};
 
