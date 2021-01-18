@@ -43,17 +43,13 @@ export const Elements: React.FunctionComponent = () => {
 	return (
 		<ThemeProvider theme={theme}>
 			<Grid container>
-				<ButtonGroup fullWidth>
+				<ButtonGroup fullWidth style={{ marginBottom: 8 }}>
 					<ShowButton onClick={(): void => showElement('teamEco')}>Team Eco</ShowButton>
 					<HideButton onClick={(): void => hideElement('teamEco')}>Team Eco</HideButton>
 				</ButtonGroup>
 				<ButtonGroup fullWidth>
-					<ShowButton onClick={(): void => showElement('teamNades')}>
-						Team Nades
-					</ShowButton>
-					<HideButton onClick={(): void => hideElement('teamNades')}>
-						Team Nades
-					</HideButton>
+					<ShowButton onClick={(): void => showElement('teamNades')}>Team Nades</ShowButton>
+					<HideButton onClick={(): void => hideElement('teamNades')}>Team Nades</HideButton>
 				</ButtonGroup>
 			</Grid>
 		</ThemeProvider>
