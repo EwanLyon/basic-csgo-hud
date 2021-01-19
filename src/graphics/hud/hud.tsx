@@ -154,7 +154,7 @@ export const HUD: React.FunctionComponent = () => {
 	});
 
 	// Get value to move the map up or down
-	if (scoreBugRef && scoreBugRef.current) {
+	if (scoreBugRef.current) {
 		setScoreBugWidth(scoreBugRef.current.offsetWidth);
 	}
 
