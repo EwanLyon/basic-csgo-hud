@@ -120,7 +120,6 @@ export const TeamEco: React.FC<Props> = (props: Props) => {
 	};
 
 	useEffect(() => {
-		console.log(props.show);
 		if (props.show) {
 			goToAnimation('Show');
 		} else {

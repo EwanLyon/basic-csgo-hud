@@ -109,7 +109,6 @@ export const SelectedMaps: React.FC<Props> = React.memo((props: Props) => {
 		}
 
 		const teamImage = map.teamVeto === props.teamOne.name ? props.teamOne.teamURL : props.teamTwo.teamURL;
-		console.log(map.teamVeto, props.teamOne.name);
 		const mapName = map.map.replace('de_', '');
 
 		let matchScore = '';

@@ -158,8 +158,6 @@ export const HUD: React.FunctionComponent = () => {
 		setScoreBugWidth(scoreBugRef.current.offsetWidth);
 	}
 
-	console.log(producerRep.teamEco || localShowEco);
-
 	return (
 		<Container>
 			<div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>

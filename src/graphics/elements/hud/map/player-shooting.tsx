@@ -30,7 +30,6 @@ export const PlayerShooting: React.FC = () => {
 	useListenFor(
 		'hlae-weaponFire',
 		(gameEvent: WeaponFire) => {
-			console.log(gameEvent);
 			setCurrentFirings([
 				...currentFirings,
 				<FiringLine
