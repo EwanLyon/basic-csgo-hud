@@ -187,4 +187,5 @@ export interface Provider {
 
 export interface Round {
 	phase: string;
+	win_team?: 'T' | 'CT';
 }

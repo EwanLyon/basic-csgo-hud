@@ -59,6 +59,7 @@ const bombHidePos = 40;
 export const ScoreBug: React.FunctionComponent<Props> = (props: Props) => {
 	const bomb = useSelector((state: stateType) => state.bomb);
 	const phase = useSelector((state: stateType) => state.phase);
+	const round = useSelector((state: stateType) => state.game.round);
 	const matchStats = useSelector((state: stateType) => state.matchStats);
 	const teamOne = useSelector((state: stateType) => state.teamOne);
 	const teamTwo = useSelector((state: stateType) => state.teamTwo);
@@ -74,10 +75,7 @@ export const ScoreBug: React.FunctionComponent<Props> = (props: Props) => {
 	const [animating, setAnimating] = useState(false);
 	const [currentRound, setCurrentRound] = useState(0);
 
-	let roundWinner;
-	if (phase.phase === 'over') {
-		roundWinner = matchStats.round_wins[`${matchStats.round}`][0];
-	}
+	const roundWinner = round.win_team || '';
 
 	const ct =
 		currentRound > 14 ? (currentRound >= 30 ? Boolean(Math.floor((currentRound - 30) / 3) % 2) : true) : false;
@@ -92,7 +90,10 @@ export const ScoreBug: React.FunctionComponent<Props> = (props: Props) => {
 					justifyContent: 'space-around',
 					width: 102,
 				}}>
-				<OTText text={`OT${Math.ceil((matchStats.round - 29) / 6)}`} style={{ fontStyle: 'italic' }} />
+				<OTText
+					text={`OT${Math.ceil((matchStats.round - 29) / 6)}`}
+					style={{ fontStyle: 'italic', lineHeight: '34px' }}
+				/>
 				<OTText text={`${matchStats.round - 29 - ~~((matchStats.round - 30) / 6) * 6}/6`} />
 			</div>
 		);

@@ -7,6 +7,7 @@ import {
 	CSGOOutputPhaseCountdowns,
 	CSGOOutputGrenade,
 	CSGOGrenadesAll,
+	Round,
 	CSGOOutput,
 } from '../types/csgo-gsi';
 import { GameSettings } from '../types/game-settings';
@@ -38,6 +39,10 @@ export const match: Map = {
 	souvenirs_total: 0,
 	round_wins: {},
 };
+
+export const round: Round = {
+	phase: 'live'
+}
 
 export const player: CSGOOutputAllplayer[] = [
 	{
