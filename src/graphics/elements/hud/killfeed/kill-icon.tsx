@@ -4,7 +4,7 @@ import { PrimaryWeapon, primaryWeaponImages, PrimaryWeaponList } from '../../ato
 import { SecondaryWeapon, secondaryWeaponImages, SecondaryWeaponList } from '../../atoms/secondary-weapons';
 
 const specialKillIcons = {
-	'inferno': require('../../../images/in-game/weapons/icon-inferno.png')
+	'inferno': require('../../../images/in-game/weapons/inferno.svg')
 }
 
 interface Props {

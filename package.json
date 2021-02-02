@@ -20,7 +20,7 @@
   ],
   "nodecg": {
     "bundleDependencies": {
-      "nodecg-csgo-manager": "^0.5.0"
+      "nodecg-csgo-manager": "^0.6.0"
     },
     "compatibleRange": "^1.7.1",
     "dashboardPanels": [
@@ -55,6 +55,7 @@
     "@types/react-redux": "^7.1.11",
     "clone": "^2.1.2",
     "gsap": "^3.5.1",
+    "nodecg": "^1.7.4",
     "parcel": "^1.12.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

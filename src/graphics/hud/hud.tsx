@@ -84,7 +84,7 @@ function currentTeamSide(round: number): boolean {
 
 	if (round >= 30) {
 		// Overtime math
-		return Boolean(Math.floor((round - 30) / 3) % 2);
+		return Boolean(Math.floor((round - 27) / 6) % 2);
 	}
 
 	return false;
@@ -96,6 +96,8 @@ export const HUD: React.FunctionComponent = () => {
 	const matchStats = useSelector((state: stateType) => state.matchStats);
 	const phase = useSelector((state: stateType) => state.phase);
 	const gameSettings = useSelector((state: stateType) => state.gameSettings);
+	const gameSgs = useSelector((state: stateType) => state.game);
+	console.log(gameSgs);
 
 	const [producerRep] = useReplicant<Producer, Producer>('producer', DummyProducer);
 	const scoreBugRef = useRef<HTMLDivElement>(null);

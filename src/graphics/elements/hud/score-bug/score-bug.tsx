@@ -56,6 +56,19 @@ const bombConditions = ['planting', 'planted', 'defusing', 'defused', 'exploded'
 const bombShowPos = 118;
 const bombHidePos = 40;
 
+function currentTeamSide(round: number) {
+	if (round < 15) {
+		return true;
+	}
+
+	if (round >= 30) {
+		// Overtime math
+		return Boolean(Math.floor((round - 27) / 6) % 2);
+	}
+
+	return false;
+}
+
 export const ScoreBug: React.FunctionComponent<Props> = (props: Props) => {
 	const bomb = useSelector((state: stateType) => state.bomb);
 	const phase = useSelector((state: stateType) => state.phase);
@@ -77,8 +90,7 @@ export const ScoreBug: React.FunctionComponent<Props> = (props: Props) => {
 
 	const roundWinner = round.win_team || '';
 
-	const ct =
-		currentRound > 14 ? (currentRound >= 30 ? Boolean(Math.floor((currentRound - 30) / 3) % 2) : true) : false;
+	const ct = !currentTeamSide(currentRound);
 
 	let otText: JSX.Element | null = null;
 	if (matchStats.round >= 30) {

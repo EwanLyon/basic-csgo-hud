@@ -2,16 +2,16 @@
 import React from 'react';
 
 export const secondaryWeaponImages = {
-	cz75a: require('../../images/in-game/weapons/cz75a.png'),
-	deagle: require('../../images/in-game/weapons/deagle.png'),
-	elite: require('../../images/in-game/weapons/elite.png'),
-	fiveseven: require('../../images/in-game/weapons/fiveseven.png'),
-	glock: require('../../images/in-game/weapons/glock.png'),
-	hkp2000: require('../../images/in-game/weapons/hkp2000.png'),
-	p250: require('../../images/in-game/weapons/p250.png'),
-	revolver: require('../../images/in-game/weapons/revolver.png'),
-	tec9: require('../../images/in-game/weapons/tec9.png'),
-	usp_silencer: require('../../images/in-game/weapons/usp_silencer.png'),
+	cz75a: require('../../images/in-game/weapons/cz75a.svg'),
+	deagle: require('../../images/in-game/weapons/deagle.svg'),
+	elite: require('../../images/in-game/weapons/elite.svg'),
+	fiveseven: require('../../images/in-game/weapons/fiveseven.svg'),
+	glock: require('../../images/in-game/weapons/glock.svg'),
+	hkp2000: require('../../images/in-game/weapons/hkp2000.svg'),
+	p250: require('../../images/in-game/weapons/p250.svg'),
+	revolver: require('../../images/in-game/weapons/revolver.svg'),
+	tec9: require('../../images/in-game/weapons/tec9.svg'),
+	usp_silencer: require('../../images/in-game/weapons/usp_silencer.svg'),
 };
 
 interface Props {

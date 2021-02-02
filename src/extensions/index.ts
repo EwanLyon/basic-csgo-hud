@@ -1,4 +1,4 @@
-import { NodeCG } from '../../../../types/server';
+import { NodeCG } from 'nodecg/types/server';
 import * as nodecgApiContext from './nodecg-api-context';
 
 module.exports = (nodecg: NodeCG): void => {

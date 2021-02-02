@@ -41,7 +41,7 @@ const TeamName = styled(Text)`
 	font-size: 47px;
 	max-width: 500px;
 	text-transform: uppercase;
-	color: ${(props: CTProps): string => (props.ct ? 'var(--ct-col)' : 'var(--t-col)')};
+	color: ${(props: CTProps) => (props.ct ? 'var(--ct-col)' : 'var(--t-col)')};
 	grid-column: 1;
 	grid-row: 1;
 `;
@@ -49,7 +49,7 @@ const TeamName = styled(Text)`
 const TeamLogo = styled.img`
 	height: 50px;
 	width: auto;
-	margin: ${(props: OnRightProps): string => (props.right ? '0 22px 0 49px' : '0 49px 0 22px')};
+	margin: ${(props: OnRightProps) => (props.right ? '0 22px 0 49px' : '0 49px 0 22px')};
 	grid-column: 1;
 	grid-row: 1;
 `;
@@ -68,8 +68,8 @@ const MatchWinsBox = styled.div`
 const MatchWins = styled.div`
 	width: ${matchWinsSize}px;
 	height: ${matchWinsSize}px;
-	background: ${(props: MatchWin): string => (props.win ? (props.ct ? 'var(--ct-col)' : 'var(--t-col)') : '')};
-	border: 1px solid ${(props: MatchWin): string => (props.ct ? 'var(--ct-col)' : 'var(--t-col)')};
+	background: ${(props: MatchWin) => (props.win ? (props.ct ? 'var(--ct-col)' : 'var(--t-col)') : '')};
+	border: 1px solid ${(props: MatchWin) => (props.ct ? 'var(--ct-col)' : 'var(--t-col)')};
 `;
 
 interface MatchWin extends CTProps {
