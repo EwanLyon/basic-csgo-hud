@@ -54,38 +54,27 @@ export const CurrentPlayer: React.FunctionComponent<Props> = React.memo((props: 
 	const [hadArmour, setHadArmour] = useState(false);
 	const [currentSteamID, setCurrentSteamID] = useState('0');
 
-	if (!curPlayer) {
-		return <></>;
-	}
+	if (!curPlayer) return <></>;
 
 	const observedPlayerAllPlayers = allPlayers.find((player) => {
 		// Find player object
-		if (player.steamId === curPlayer.steamid && curPlayer.name === player.name) {
-			// If player is spectating then they wont have an observer slot field
-			if (typeof player.observer_slot === 'number') {
-				return player;
-			}
-		}
-
-		return undefined;
+		// If player is spectating then they wont have an observer slot field
+		if (player.steamId === curPlayer.steamid && typeof player.observer_slot === 'number') return player;
+		return;
 	});
 
-	if (!observedPlayerAllPlayers) {
-		return <></>;
-	}
+	if (!observedPlayerAllPlayers) return <></>;
 
 	const playerStats = observedPlayerAllPlayers.match_stats;
 	const playerWeapons = Object.values(observedPlayerAllPlayers.weapons);
 
 	const currentExtraDataPlayer = extraData[curPlayer.steamid];
-	const helmetOrNormal = curPlayer.state.helmet ? 'helmet' : 'normal';
-	const grenadeWeaponList = playerWeapons.filter((weapon) => {
-		if (weapon.type === 'Grenade') {
-			return weapon;
-		}
 
-		return undefined;
+	const grenadeWeaponList = playerWeapons.filter((weapon) => {
+		if (weapon.type === 'Grenade') return weapon;
+		return;
 	});
+
 	const justGrenadeNames = grenadeWeaponList.map((weapon) => {
 		return weapon.name.replace('weapon_', '') as GrenadeList;
 	});
@@ -96,7 +85,7 @@ export const CurrentPlayer: React.FunctionComponent<Props> = React.memo((props: 
 			case 'Grenade':
 			case 'Knife':
 			case 'Pistol':
-				return undefined;
+				return;
 
 			default:
 				return weapon;
@@ -104,15 +93,11 @@ export const CurrentPlayer: React.FunctionComponent<Props> = React.memo((props: 
 	});
 
 	const secondaryWeapon = playerWeapons.find((weapon) => {
-		switch (weapon.type) {
-			case 'Pistol':
-				return weapon;
-
-			default:
-				return undefined;
-		}
+		if (weapon.type === 'Pistol') return weapon;
+		return;
 	});
 
+	// Prevents name and health from moving down when player runs out of armour, just removes a moving part
 	if (curPlayer.steamid !== currentSteamID) {
 		setCurrentSteamID(curPlayer.steamid);
 		if (curPlayer.state.armor === 0) {
@@ -124,24 +109,16 @@ export const CurrentPlayer: React.FunctionComponent<Props> = React.memo((props: 
 		setHadArmour(true);
 	}
 
-	let profilePicture;
-	if (typeof currentExtraDataPlayer?.image !== 'undefined') {
-		profilePicture = (
-			<ProfilePicture
-				country={currentExtraDataPlayer.country}
-				url={currentExtraDataPlayer.image}
-			/>
-		);
-	}
-
 	return (
 		<Container className={props.className}>
 			<TopBar>
-				{profilePicture}
+				{currentExtraDataPlayer?.image && (
+					<ProfilePicture country={currentExtraDataPlayer.country} url={currentExtraDataPlayer.image} />
+				)}
 				<HealthBar
 					health={curPlayer.state.health}
 					armour={curPlayer.state.armor}
-					armourType={helmetOrNormal}
+					helmet={curPlayer.state.helmet}
 					player={curPlayer.name}
 					ct={curPlayer.team === 'CT'}
 					nonCenterText={hadArmour}
@@ -150,13 +127,23 @@ export const CurrentPlayer: React.FunctionComponent<Props> = React.memo((props: 
 				/>
 			</TopBar>
 			<BottomBar>
-				<StatsBox style={{border: curPlayer.team === 'CT' ? '1px solid var(--ct-col)' : '1px solid var(--t-col)', borderTop: 'none'}}>
+				<StatsBox
+					style={{
+						border: curPlayer.team === 'CT' ? '1px solid var(--ct-col)' : '1px solid var(--t-col)',
+						borderTop: 'none',
+					}}>
 					<StatsText text="K" stat={playerStats.kills} />
 					<StatsText text="D" stat={playerStats.deaths} />
 					<StatsText text="A" stat={playerStats.assists} />
 					<StatsText text="ADR" stat={~~currentExtraDataPlayer?.adr || 0} />
 				</StatsBox>
-				<GrenadesBox grenades={justGrenadeNames} style={{border: curPlayer.team === 'CT' ? '1px solid var(--ct-col)' : '1px solid var(--t-col)', borderTop: 'none'}} />
+				<GrenadesBox
+					grenades={justGrenadeNames}
+					style={{
+						border: curPlayer.team === 'CT' ? '1px solid var(--ct-col)' : '1px solid var(--t-col)',
+						borderTop: 'none',
+					}}
+				/>
 				<WeaponsBox
 					kills={curPlayer.state.round_kills}
 					primCur={primaryWeapon?.ammo_clip}

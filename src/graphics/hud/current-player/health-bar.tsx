@@ -110,7 +110,7 @@ interface Props {
 	armour: number;
 	player: string;
 	ct?: boolean;
-	armourType: 'helmet' | 'normal';
+	helmet: boolean;
 	nonCenterText?: boolean;
 	realName?: string;
 	country?: string;
@@ -136,9 +136,10 @@ export const HealthBar: React.FunctionComponent<Props> = (props: Props) => {
 		opacity: props.armour === 0 ? '0' : '1',
 	};
 
-	let playerNameElement;
+	let playerNameElement = <></>;
 	if (props.realName) {
 		if (props.country) {
+			// If both real name and country
 			playerNameElement = (
 				<Grid container direction="column" justify="space-evenly">
 					<RealNamePlayerName text={props.player} />
@@ -151,6 +152,7 @@ export const HealthBar: React.FunctionComponent<Props> = (props: Props) => {
 				</Grid>
 			);
 		} else {
+			// If just real name
 			playerNameElement = (
 				<Grid container direction="column" justify="space-evenly">
 					<RealNamePlayerName text={props.player} />
@@ -159,6 +161,7 @@ export const HealthBar: React.FunctionComponent<Props> = (props: Props) => {
 			);
 		}
 	} else if (props.country) {
+		// If no real name but country
 		playerNameElement = (
 			<Grid container alignItems="center">
 				<CountryFlag>{props.country}</CountryFlag>
@@ -166,6 +169,7 @@ export const HealthBar: React.FunctionComponent<Props> = (props: Props) => {
 			</Grid>
 		);
 	} else {
+		// Just name
 		playerNameElement = <PlayerName text={props.player} />;
 	}
 
@@ -185,7 +189,7 @@ export const HealthBar: React.FunctionComponent<Props> = (props: Props) => {
 					</HealthArmourRaw>
 					<HealthArmourRaw>
 						{/* Armour */}
-						<ArmourImg item={props.armourType} />
+						<ArmourImg helmet={props.helmet} />
 						<span>{props.armour}</span>
 					</HealthArmourRaw>
 				</div>
