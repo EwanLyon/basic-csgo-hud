@@ -10,7 +10,6 @@ import { MapImages, MapList } from '../components/map-images';
 import { SelectedMaps } from './selected-maps';
 import { Grenade } from './grenade';
 import { PlayerIcon, CarriedBombIcon, DroppedBombIcon, DeadPlayer, FlashingBomb } from './player-icon';
-// import { PlayerShooting } from './player-shooting';
 
 const MapContainer = styled.div`
 	font-family: Roboto;
@@ -52,8 +51,6 @@ export const Map: React.FC<Props> = (props: Props) => {
 	const mapPhase = useSelector((state: stateType) => state.phase.phase); // Just to reset flashFragGrenades elements
 	const observedPlayerID = useSelector((state: stateType) => state.observingPlayer.steamid);
 	const matchData = useSelector((state: stateType) => state.currentMatch);
-	const teamOne = useSelector((state: stateType) => state.teamOne);
-	const teamTwo = useSelector((state: stateType) => state.teamTwo);
 	const grenades = useSelector((state: stateType) => state.mapGrenades);
 
 	// // Frags and flashes occur when the nade dies so we need to know when that happens
