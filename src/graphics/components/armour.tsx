@@ -6,10 +6,10 @@ const armourImages = {
 };
 
 interface Props {
-	item: keyof typeof armourImages;
+	helmet?: boolean;
 	className?: string;
 }
 
 export const Armour: React.FunctionComponent<Props> = (props: Props) => {
-	return <img className={props.className} src={armourImages[props.item]} />;
+	return <img className={props.className} src={props.helmet ? armourImages.helmet : armourImages.normal} />;
 };
