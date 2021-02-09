@@ -1,19 +1,19 @@
 // Custom
 
 // Premade
-export interface CSGOOutput {
+export interface CSGO {
 	provider: Provider;
 	map: Map;
 	round: Round;
-	player: CSGOOutputPlayer;
-	allplayers: Record<string, CSGOOutputAllplayer>;
-	phaseCountdowns: CSGOOutputPhaseCountdowns;
+	player: CSGOPlayer;
+	allplayers: Record<string, CSGOAllplayer>;
+	phase_countdowns: CSGOPhaseCountdowns;
 	grenades: CSGOGrenadesAll;
-	bomb: CSGOOutputBomb;
+	bomb: CSGOBomb;
 	previously: Previously;
 }
 
-export interface CSGOOutputAllplayer {
+export interface CSGOAllplayer {
 	steamId: string;
 	name: string;
 	observer_slot: number;
@@ -68,14 +68,14 @@ export interface Weapon {
 	state: 'active' | 'holstered';
 }
 
-export interface CSGOOutputBomb {
+export interface CSGOBomb {
 	state: 'planted' | 'exploded' | 'carried' | 'planting' | 'dropped' | 'defusing' | 'defused';
 	position: string;
 	player?: string;
 	countdown?: string;
 }
 
-export interface CSGOOutputGrenade {
+export interface CSGOGrenade {
 	owner: string;
 	position: string;
 	velocity: string;
@@ -86,7 +86,7 @@ export interface CSGOOutputGrenade {
 }
 
 export interface CSGOGrenadesAll {
-	[key: string]: CSGOOutputGrenade;
+	[key: string]: CSGOGrenade;
 }
 
 export interface Map {
@@ -117,7 +117,7 @@ export interface Team {
 	matches_won_this_series: number;
 }
 
-export interface CSGOOutputPhaseCountdowns {
+export interface CSGOPhaseCountdowns {
 	phase:
 		| 'live'
 		| 'bomb'
@@ -131,7 +131,7 @@ export interface CSGOOutputPhaseCountdowns {
 	phase_ends_in: string;
 }
 
-export interface CSGOOutputPlayer {
+export interface CSGOPlayer {
 	steamid: string;
 	clan: string;
 	name: string;
@@ -187,5 +187,5 @@ export interface Provider {
 
 export interface Round {
 	phase: string;
-	win_team?: 'T' | 'CT';
+	win_team?: string;
 }

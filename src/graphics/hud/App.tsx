@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import { HUD } from './hud';
+import { HUD } from './HUD';
 // import { Map } from '../elements/fui/map/map';
 import { store } from '../replicant-store';
 

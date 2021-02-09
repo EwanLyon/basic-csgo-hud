@@ -11,12 +11,12 @@ import { DummyProducer } from '../../extensions/dummyData';
 import { Producer } from '../../types/producer';
 import { stateType } from '../replicant-store';
 
-import { ScoreBug } from '../elements/hud/score-bug/score-bug';
-import { Player } from '../elements/hud/player/player';
-import { CurrentPlayer } from '../elements/hud/current-player/current-player';
-import { TeamEco } from '../elements/hud/in-game-stats/team-eco';
-import { TeamNade } from '../elements/hud/in-game-stats/team-nades';
-import { Killfeed } from '../elements/hud/killfeed/killfeed';
+import { ScoreBug } from './score-bug/score-bug';
+import { Player } from './player/player';
+import { CurrentPlayer } from './current-player/current-player';
+import { TeamEco } from './in-game-stats/team-eco';
+import { TeamNade } from './in-game-stats/team-nades';
+import { Killfeed } from './killfeed/killfeed';
 
 const Container = styled.div`
 	position: absolute;
@@ -96,8 +96,6 @@ export const HUD: React.FunctionComponent = () => {
 	const matchStats = useSelector((state: stateType) => state.matchStats);
 	const phase = useSelector((state: stateType) => state.phase);
 	const gameSettings = useSelector((state: stateType) => state.gameSettings);
-	const gameSgs = useSelector((state: stateType) => state.game);
-	console.log(gameSgs);
 
 	const [producerRep] = useReplicant<Producer, Producer>('producer', DummyProducer);
 	const scoreBugRef = useRef<HTMLDivElement>(null);

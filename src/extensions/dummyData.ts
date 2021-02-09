@@ -1,14 +1,14 @@
 /* eslint-disable camelcase */
 import {
 	Map,
-	CSGOOutputAllplayer,
-	CSGOOutputPlayer,
-	CSGOOutputBomb,
-	CSGOOutputPhaseCountdowns,
-	CSGOOutputGrenade,
+	CSGOAllplayer,
+	CSGOPlayer,
+	CSGOBomb,
+	CSGOPhaseCountdowns,
+	CSGOGrenade,
 	CSGOGrenadesAll,
 	Round,
-	CSGOOutput,
+	CSGO,
 } from '../types/csgo-gsi';
 import { GameSettings } from '../types/game-settings';
 import { BundleStatus } from '../types/bundle-status';
@@ -44,7 +44,7 @@ export const round: Round = {
 	phase: 'live'
 }
 
-export const player: CSGOOutputAllplayer[] = [
+export const player: CSGOAllplayer[] = [
 	{
 		steamId: '-1',
 		name: 'Username',
@@ -82,7 +82,7 @@ export const player: CSGOOutputAllplayer[] = [
 	},
 ];
 
-export const observingPlayer: CSGOOutputPlayer = {
+export const observingPlayer: CSGOPlayer = {
 	steamid: '-1',
 	clan: '',
 	name: 'PlayerName',
@@ -107,13 +107,13 @@ export const observingPlayer: CSGOOutputPlayer = {
 	forward: '0, 0, 0',
 };
 
-export const bomb: CSGOOutputBomb = {
+export const bomb: CSGOBomb = {
 	state: 'carried',
 	position: '0, 0, 0',
 	player: '-1',
 };
 
-export const phase: CSGOOutputPhaseCountdowns = {
+export const phase: CSGOPhaseCountdowns = {
 	phase: 'live',
 	phase_ends_in: '120',
 };
@@ -178,7 +178,7 @@ export const DummyProducer: Producer = {
 	teamNades: false,
 };
 
-export const DummyGrenades: CSGOOutputGrenade = {
+export const DummyGrenades: CSGOGrenade = {
 	owner: '-1',
 	position: '0, 0, 0',
 	velocity: '0, 0, 0',
@@ -195,7 +195,7 @@ export const DummyTeamsPreset: TeamsPreset = {
 	players: {},
 };
 
-export const game: CSGOOutput = {
+export const game: CSGO = {
 	provider: {
 		name: 'Counter-Strike: Global Offensive',
 		appid: 730,
@@ -207,7 +207,7 @@ export const game: CSGOOutput = {
 	bomb: bomb,
 	grenades: DummyGrenadesAll,
 	map: match,
-	phaseCountdowns: phase,
+	phase_countdowns: phase,
 	player: observingPlayer,
 	round: {
 		phase: 'live',
