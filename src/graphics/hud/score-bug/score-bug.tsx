@@ -88,7 +88,7 @@ export const ScoreBug: React.FunctionComponent<Props> = (props: Props) => {
 	const [animating, setAnimating] = useState(false);
 	const [currentRound, setCurrentRound] = useState(0);
 
-	const roundWinner = round.win_team || '';
+	const roundWinner = round?.win_team || '';
 
 	const ct = !currentTeamSide(currentRound);
 

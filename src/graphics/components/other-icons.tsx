@@ -1,8 +1,8 @@
 import React from 'react';
 
 const otherImages = {
-	bomb: require('../images/equipment/bomb_white.png'),
-	defuse: require('../images/equipment/defuse.png'),
+	bomb: require('../images/equipment/bomb.svg'),
+	defuse: require('../images/equipment/defuser.svg'),
 };
 
 interface Props {

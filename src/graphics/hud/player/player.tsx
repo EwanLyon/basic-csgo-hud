@@ -26,16 +26,21 @@ const MoneyText = styled.div`
 	font-size: 23px;
 	min-width: 72px;
 	text-align: ${(props: StyleProps) => (props.right ? 'right' : 'left')};
+	${(props: StyleProps) => (props.right ? 'margin-right: -34px' : 'margin-left: -34px')};
 `;
 
 const DollarSign = styled.span`
 	font-size: 15px;
 `;
 
+const SecondaryWeaponHolder = styled.div`
+	height: 100%;
+	width: 52px;
+`;
+
 const SecondaryWeapon = styled(Weapon.SecondaryWeapon)`
 	height: 20px;
 	width: auto;
-	min-width: 52px;
 	object-fit: scale-down;
 	margin: 0 10px;
 `;
@@ -52,9 +57,15 @@ const LowerBar = styled.div`
 	flex-direction: ${(props: StyleProps): string => (props.right ? 'row-reverse' : 'row')};
 `;
 
+const EquipmentBar = styled.div`
+	display: flex;
+	min-width: 40px;
+	justify-content: center;
+`;
+
 const GrenadeBar = styled.div`
 	display: flex;
-	align-items: bottom;
+	align-items: flex-end;
 	justify-content: center;
 	height: 25px;
 	max-width: 90px;
@@ -78,10 +89,6 @@ const ArmourImg = styled(Armour)`
 `;
 
 const BombDefuseImg = styled(OtherIcons)`
-	${ArmourBombDefuseSize}
-`;
-
-const EmptySpace = styled.div`
 	${ArmourBombDefuseSize}
 `;
 
@@ -129,7 +136,7 @@ export const Player: React.FunctionComponent<Props> = React.memo((props: Props) 
 			case 'Grenade':
 			case 'Knife':
 			case 'Pistol':
-				return undefined;
+				return;
 
 			default:
 				return weapon;
@@ -153,32 +160,32 @@ export const Player: React.FunctionComponent<Props> = React.memo((props: Props) 
 				/>
 
 				<LowerBar right={props.right}>
-					<MoneyText>
-						<DollarSign>$</DollarSign>
-						{player.state.money}
-					</MoneyText>
-
-					<div style={{ display: 'flex', justifyContent: 'center', minWidth: 50 }}>
-						{player.state.armor && <ArmourImg helmet={player.state.helmet} />}
+					<EquipmentBar>
+						{Boolean(player.state.armor) && <ArmourImg helmet={player.state.helmet} />}
 						{isCT ? (
-							player.state.defusekit ? (
+							player.state.defusekit && (
 								<BombDefuseImg item="defuse" />
-							) : (
-								<EmptySpace />
 							)
 						) : (
 							carryingBomb && <BombDefuseImg item="bomb" />
 						)}
-					</div>
+					</EquipmentBar>
+
+					<MoneyText right={props.right}>
+						<DollarSign>$</DollarSign>
+						{player.state.money}
+					</MoneyText>
 
 					<GrenadeBar>{grenadeList}</GrenadeBar>
-					{secondaryWeapon && (
-						<SecondaryWeapon
-							active={secondaryWeapon.state === 'active'}
-							flip={props.right}
-							item={secondaryWeapon.name.replace('weapon_', '') as Weapon.SecondaryWeaponList}
-						/>
-					)}
+					<SecondaryWeaponHolder>
+						{secondaryWeapon && (
+							<SecondaryWeapon
+								active={secondaryWeapon.state === 'active'}
+								flip={props.right}
+								item={secondaryWeapon.name.replace('weapon_', '') as Weapon.SecondaryWeaponList}
+							/>
+						)}
+					</SecondaryWeaponHolder>
 				</LowerBar>
 			</PlayerContainer>
 			<Kills killsNumber={player.state.round_kills} ct={isCT} />

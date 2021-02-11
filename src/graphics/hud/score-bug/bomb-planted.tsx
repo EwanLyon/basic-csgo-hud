@@ -203,7 +203,7 @@ export const BombPlanted: React.FC<Props> = React.forwardRef(
 					}}
 				/>
 				<KitImage
-					src={require('../../images/equipment/defuse.png')}
+					src={require('../../images/equipment/defuser.svg')}
 					style={{ display: props.kit ? '' : 'none' }}
 				/>
 				<PlayerText kit={props.kit}>
