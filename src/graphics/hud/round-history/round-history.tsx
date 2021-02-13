@@ -38,11 +38,11 @@ export const RoundHistory = React.forwardRef<ComponentAnimation, Props>((props, 
 
 	useImperativeHandle(ref, () => ({
 		show: () => {
-			gsap.to(containerRef.current, {y: 0, opacity: 1, duration: 1});
+			gsap.to(containerRef.current, { y: 0, opacity: 1, duration: 1 });
 		},
-		hide:() => {
-			gsap.to(containerRef.current, {y: -50, opacity: 0, duration: 1});
-		}
+		hide: () => {
+			gsap.to(containerRef.current, { y: -50, opacity: 0, duration: 1 });
+		},
 	}));
 
 	const roundIcons = [];
@@ -59,7 +59,9 @@ export const RoundHistory = React.forwardRef<ComponentAnimation, Props>((props, 
 				/>,
 			);
 		} else {
-			roundIcons.push(<RoundIcon currentRound={currentRound + 1} round={i} wintype={'empty'} key={i} />);
+			roundIcons.push(
+				<RoundIcon currentRound={currentRound + 1} round={i} wintype={'empty'} key={i} />,
+			);
 		}
 
 		if (i === 15) roundIcons.push(<HalfDivider />);
@@ -71,3 +73,5 @@ export const RoundHistory = React.forwardRef<ComponentAnimation, Props>((props, 
 		</RoundHistoryContainer>
 	);
 });
+
+RoundHistory.displayName = 'RoundHistory';

@@ -1,14 +1,22 @@
 import React from 'react';
 
-import { PrimaryWeapon, primaryWeaponImages, PrimaryWeaponList } from '../../components/primary-weapons';
-import { SecondaryWeapon, secondaryWeaponImages, SecondaryWeaponList } from '../../components/secondary-weapons';
+import {
+	PrimaryWeapon,
+	primaryWeaponImages,
+	PrimaryWeaponList,
+} from '../../components/primary-weapons';
+import {
+	SecondaryWeapon,
+	secondaryWeaponImages,
+	SecondaryWeaponList,
+} from '../../components/secondary-weapons';
 
 const specialKillIcons = {
-	'inferno': require('../../images/weapons/inferno.svg')
-}
+	inferno: require('../../images/weapons/inferno.svg'),
+};
 
 interface Props {
-	weapon: string
+	weapon: string;
 }
 
 export const KillIcon: React.FC<Props> = (props: Props) => {

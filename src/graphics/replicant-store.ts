@@ -1,8 +1,8 @@
 import { createStore } from 'redux';
 import clone from 'clone';
 import { ReplicantBrowser } from '../../../../types/browser';
-import * as DummyData from '../extensions/dummyData';
-import { Match } from '../types/matches';
+import ExampleData from '../../../nodecg-csgo-manager/types/example-data';
+import { Matches } from '../types/nodecg-csgo-manager';
 
 const replicantNames = [
 	'game',
@@ -21,28 +21,28 @@ const replicantNames = [
 	'matches',
 	'currentMatch',
 	'mapPlayers',
-	'interpMapPlayers'
+	'interpMapPlayers',
 ];
 const replicants: ReplicantBrowser<unknown>[] = [];
 
 const initialState = {
-	game: DummyData.game,
-	matchStats: DummyData.match,
-	allPlayers: DummyData.player,
-	observingPlayer: DummyData.observingPlayer,
-	bomb: DummyData.bomb,
-	phase: DummyData.phase,
-	playerData: DummyData.ExtraData,
-	teamOne: DummyData.TeamData,
-	teamTwo: DummyData.TeamDataTwo,
+	game: ExampleData.game,
+	matchStats: ExampleData.match,
+	allPlayers: ExampleData.player,
+	observingPlayer: ExampleData.observingPlayer,
+	bomb: ExampleData.bomb,
+	phase: ExampleData.phase,
+	playerData: ExampleData.extraData,
+	teamOne: ExampleData.teamData,
+	teamTwo: ExampleData.teamData,
 	swapTeams: false,
-	gameSettings: DummyData.gameSettings,
+	gameSettings: ExampleData.gameSettings,
 	matchKills: [],
-	mapGrenades: DummyData.DummyGrenadesAll,
-	matches: [],
-	currentMatch: undefined as Match | undefined,
-	mapPlayers: DummyData.MapPostions,
-	interpMapPlayers: DummyData.InterpMapPositions,
+	mapGrenades: ExampleData.grenadesAll,
+	matches: [] as Matches.Matches,
+	currentMatch: undefined as Matches.Match | undefined,
+	mapPlayers: ExampleData.mapPostions,
+	interpMapPlayers: ExampleData.interpMapPositions,
 };
 
 function replicantReducer(

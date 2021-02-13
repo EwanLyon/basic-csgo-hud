@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useListenFor } from 'use-nodecg';
-import { WeaponFire } from '../../../../types/hlae';
-import { stateType } from '../../../replicant-store';
+import CSGOManager from '../../types/nodecg-csgo-manager';
+import { stateType } from '../replicant-store';
 import { MapData } from './map-data';
 
 const PlayerShootingContainer = styled.div`
@@ -29,16 +29,24 @@ export const PlayerShooting: React.FC = () => {
 
 	useListenFor(
 		'hlae-weaponFire',
-		(gameEvent: WeaponFire) => {
+		(gameEvent: CSGOManager.HLAE.WeaponFire) => {
 			setCurrentFirings([
 				...currentFirings,
 				<FiringLine
 					key={Date.now().toString()}
 					id={Date.now().toString()}
 					style={{
-						left: `${scaleTo100(gameEvent.keys.userid.eyeOrigin[0], mapData.xMin, mapData.xMax)}%`,
-						bottom: `${scaleTo100(gameEvent.keys.userid.eyeOrigin[1], mapData.yMin, mapData.yMax)}%`,
-						// transform: `rotate(${Math.atan2(
+						left: `${scaleTo100(
+							gameEvent.keys.userid.eyeOrigin[0],
+							mapData.xMin,
+							mapData.xMax,
+						)}%`,
+						bottom: `${scaleTo100(
+							gameEvent.keys.userid.eyeOrigin[1],
+							mapData.yMin,
+							mapData.yMax,
+						)}%`,
+						// Transform: `rotate(${Math.atan2(
 						// 	gameEvent.keys.userid.eyeAngles[0],
 						// 	gameEvent.keys.userid.eyeAngles[1],
 						// )}rad)`,
@@ -67,7 +75,7 @@ interface ShootingProps {
 }
 
 const FiringLine: React.FC<ShootingProps> = (props: ShootingProps) => {
-	// useEffect(() => {
+	// UseEffect(() => {
 	// 	const timeout = setTimeout(() => {
 	// 		props.removeFunc(props.id);
 	// 	}, 1000);

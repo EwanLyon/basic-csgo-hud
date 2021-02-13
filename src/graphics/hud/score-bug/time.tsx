@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { FitText, Text as FitTextText } from '../../components/fit-text';
-import { CSGOPhaseCountdowns } from '../../../types/csgo-gsi';
+import { CSGO } from '../../../types/nodecg-csgo-manager';
 
 const Text = styled(FitText)`
 	& > ${FitTextText} {
@@ -63,7 +63,7 @@ const BombImage = styled.img`
 `;
 
 interface Props {
-	phase: CSGOPhaseCountdowns['phase'];
+	phase: CSGO.CSGOPhaseCountdowns['phase'];
 	time: number;
 	roundWin?: string;
 }

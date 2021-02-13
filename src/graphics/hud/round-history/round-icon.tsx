@@ -34,13 +34,13 @@ const EmptySpace = styled.div`
 
 const RoundNumber = styled.span`
 	color: white;
-	visibility: ${(props: StyleProps) => props.active ? 'visible' : 'hidden' };
+	visibility: ${(props: StyleProps) => (props.active ? 'visible' : 'hidden')};
 `;
 
 const RoundBorder = styled.div`
 	width: 100%;
 	height: 3px;
-	background: ${(props: StyleProps) => props.active ? '#ffffff' : 'rgba(255, 255, 255, 0.5)' };
+	background: ${(props: StyleProps) => (props.active ? '#ffffff' : 'rgba(255, 255, 255, 0.5)')};
 	margin: 2px 0;
 `;
 
@@ -60,9 +60,9 @@ interface Props {
 }
 
 export const RoundIcon: React.FC<Props> = (props) => {
-	let icon = <EmptySpace/>;
+	let icon = <EmptySpace />;
 	const ct = props.wintype.charAt(0) === 'c';
-	// const firstHalf = props.round <= 15;
+	// Const firstHalf = props.round <= 15;
 
 	switch (props.wintype) {
 		case 't_win_elimination':
@@ -94,7 +94,9 @@ export const RoundIcon: React.FC<Props> = (props) => {
 		<RoundIconContainer className={props.className} style={props.style}>
 			{icon}
 			<RoundBorder active={props.round === props.currentRound} />
-			<RoundNumber active={(props.round % 5 === 0 || props.round === 1)}>{props.round}</RoundNumber>
+			<RoundNumber active={props.round % 5 === 0 || props.round === 1}>
+				{props.round}
+			</RoundNumber>
 		</RoundIconContainer>
 	);
 };

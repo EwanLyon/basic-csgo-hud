@@ -133,7 +133,11 @@ export const ScoreBug: React.FunctionComponent<Props> = (props: Props) => {
 
 	return (
 		<Container style={props.style}>
-			<Grid container direction={swapTeams ? 'row-reverse' : 'row'} justify="center" alignItems="center">
+			<Grid
+				container
+				direction={swapTeams ? 'row-reverse' : 'row'}
+				justify="center"
+				alignItems="center">
 				<Wing
 					displayingTeam={currentMatch?.teamA}
 					oppositeTeam={currentMatch?.teamB}

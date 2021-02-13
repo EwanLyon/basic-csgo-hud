@@ -1,11 +1,10 @@
 import * as nodecgApiContext from './nodecg-api-context';
 const nodecg = nodecgApiContext.get();
 
-import { DummyProducer } from './dummyData';
 import { Producer } from '../types/producer';
 
 const producerRep = nodecg.Replicant<Producer>('producer', {
-	defaultValue: DummyProducer,
+	defaultValue: { teamEco: false, teamNades: false },
 	persistent: false,
 });
 
@@ -28,7 +27,3 @@ nodecg.listenFor('basicHide', (elementName: string) => {
 
 	producerRep.value[elementName as keyof Producer] = false;
 });
-
-// GameRep.on('change', (newVal: any) => {
-// 	console.log(newVal.provider.timestamp);
-// });

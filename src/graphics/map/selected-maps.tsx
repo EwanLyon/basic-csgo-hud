@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { keyframes, css } from 'styled-components';
 
-import { MapInfo, Match } from '../../types/matches';
+import { Matches } from '../../types/nodecg-csgo-manager';
 import { DesktopWindows } from '@material-ui/icons';
 
 const Container = styled.div`
@@ -82,16 +82,16 @@ const FadeText2 = styled(FadeText1)`
 `;
 
 interface Props {
-	matchData: Match;
+	matchData: Matches.Match;
 	swapTeams?: boolean;
 }
 
-function addScores(map: MapInfo, teamB = false) {
+function addScores(map: Matches.MapInfo, teamB = false) {
 	if (teamB) {
 		return map.firstHalf.teamB + map.secondHalf.teamB + (map?.ot?.teamB || 0);
-	} else {
-		return map.firstHalf.teamA + map.secondHalf.teamA + (map?.ot?.teamA || 0);
 	}
+
+	return map.firstHalf.teamA + map.secondHalf.teamA + (map?.ot?.teamA || 0);
 }
 
 export const SelectedMaps: React.FC<Props> = React.memo((props: Props) => {
@@ -105,22 +105,25 @@ export const SelectedMaps: React.FC<Props> = React.memo((props: Props) => {
 			return undefined;
 		}
 
-		const teamImage = map.teamVeto === props.matchData.teamA.name ? props.matchData.teamA.logo : props.matchData.teamB.logo;
+		const teamImage =
+			map.teamVeto === props.matchData.teamA.name
+				? props.matchData.teamA.logo
+				: props.matchData.teamB.logo;
 		const mapName = map.map.replace('de_', '');
 
 		let matchScore = '';
 		let matchWinnerLogo = teamImage;
-			if (addScores(map) >= 16 || addScores(map, true) >= 16) {
-				matchScore = props.swapTeams
-					? `${addScores(map, true)}:${addScores(map)}`
-					: `${addScores(map)}:${addScores(map, true)}`;
+		if (addScores(map) >= 16 || addScores(map, true) >= 16) {
+			matchScore = props.swapTeams
+				? `${addScores(map, true)}:${addScores(map)}`
+				: `${addScores(map)}:${addScores(map, true)}`;
 
-				if (addScores(map) > addScores(map, true)) {
-					matchWinnerLogo = props.matchData.teamA.logo;
-				} else {
-					matchWinnerLogo = props.matchData.teamB.logo;
-				}
+			if (addScores(map) > addScores(map, true)) {
+				matchWinnerLogo = props.matchData.teamA.logo;
+			} else {
+				matchWinnerLogo = props.matchData.teamB.logo;
 			}
+		}
 
 		return (
 			<SetMap key={index}>

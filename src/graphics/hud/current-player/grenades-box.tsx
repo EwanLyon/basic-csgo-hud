@@ -30,5 +30,9 @@ export const GrenadesBox: React.FunctionComponent<Props> = (props: Props) => {
 		? props.grenades.map((grenade, index) => <GrenadeImg item={grenade} key={index} />)
 		: '';
 
-	return <Container className={props.className} style={props.style}>{grenadesDisplay}</Container>;
+	return (
+		<Container className={props.className} style={props.style}>
+			{grenadesDisplay}
+		</Container>
+	);
 };

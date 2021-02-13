@@ -48,8 +48,12 @@ export const Elements: React.FunctionComponent = () => {
 					<HideButton onClick={(): void => hideElement('teamEco')}>Team Eco</HideButton>
 				</ButtonGroup>
 				<ButtonGroup fullWidth>
-					<ShowButton onClick={(): void => showElement('teamNades')}>Team Nades</ShowButton>
-					<HideButton onClick={(): void => hideElement('teamNades')}>Team Nades</HideButton>
+					<ShowButton onClick={(): void => showElement('teamNades')}>
+						Team Nades
+					</ShowButton>
+					<HideButton onClick={(): void => hideElement('teamNades')}>
+						Team Nades
+					</HideButton>
 				</ButtonGroup>
 			</Grid>
 		</ThemeProvider>

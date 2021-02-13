@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useListenFor } from 'use-nodecg';
-import { WeaponFire } from '../../types/hlae';
+import CSGOManager from '../../types/nodecg-csgo-manager';
 
 import { MapRadarData } from './map-data';
 
@@ -37,7 +37,6 @@ const FacingArrow = styled.div`
 
 const bombWidth = 40;
 const BombImage = styled.div`
-	background-image: url(${(props: PlayerIconStyle) => props.observed ? require('../images/equipment/c4_timer_noflash_sq.png') : require('../images/equipment/c4_timer_noflash_col_sq.png')});
 	background-size: cover;
 	position: absolute;
 	height: ${bombWidth}px;
@@ -114,10 +113,14 @@ export const PlayerIcon: React.FC<Props> = (props: Props) => {
 
 	useListenFor(
 		'hlae-weaponFire',
-		(gameEvent: WeaponFire) => {
-			if (gameEvent.keys.userid.xuid === props.steamId && !disallowedFiringWeapons.includes(gameEvent.keys.weapon)) {
+		(gameEvent: CSGOManager.HLAE.WeaponFire) => {
+			if (
+				gameEvent.keys.userid.xuid === props.steamId &&
+				!disallowedFiringWeapons.includes(gameEvent.keys.weapon)
+			) {
 				firingLineRef.current?.classList.remove('firing-animation');
-				void firingLineRef.current?.offsetWidth;
+				/* eslint-disable-next-line */
+				void firingLineRef.current?.offsetWidth; 
 				firingLineRef.current?.classList.add('firing-animation');
 			}
 		},
@@ -156,6 +159,10 @@ export const CarriedBombIcon: React.FC<BombProps> = (props: BombProps) => {
 			style={{
 				left: `${scaleTo100(props.position[0], props.map.xMin, props.map.xMax)}%`,
 				bottom: `${scaleTo100(props.position[1], props.map.yMin, props.map.yMax)}%`,
+				backgroundImage: `url(${(props: PlayerIconStyle) =>
+					props.observed
+						? require('../images/equipment/c4_timer_noflash_sq.png')
+						: require('../images/equipment/c4_timer_noflash_col_sq.png')})`
 			}}>
 			<FacingArrow
 				style={{

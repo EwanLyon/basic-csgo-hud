@@ -56,12 +56,12 @@ export const CurrentPlayer: React.FunctionComponent<Props> = React.memo((props: 
 
 	if (!curPlayer) return <></>;
 
-	const observedPlayerAllPlayers = allPlayers.find((player) => {
-		// Find player object
-		// If player is spectating then they wont have an observer slot field
-		if (player.steamId === curPlayer.steamid && typeof player.observer_slot === 'number') return player;
-		return;
-	});
+	const observedPlayerAllPlayers = allPlayers.find(
+		(player) =>
+			// Find player object
+			// If player is spectating then they wont have an observer slot field
+			player.steamId === curPlayer.steamid && typeof player.observer_slot === 'number',
+	);
 
 	if (!observedPlayerAllPlayers) return <></>;
 
@@ -72,7 +72,7 @@ export const CurrentPlayer: React.FunctionComponent<Props> = React.memo((props: 
 
 	const grenadeWeaponList = playerWeapons.filter((weapon) => {
 		if (weapon.type === 'Grenade') return weapon;
-		return;
+		return undefined;
 	});
 
 	const justGrenadeNames = grenadeWeaponList.map((weapon) => {
@@ -85,7 +85,7 @@ export const CurrentPlayer: React.FunctionComponent<Props> = React.memo((props: 
 			case 'Grenade':
 			case 'Knife':
 			case 'Pistol':
-				return;
+				return undefined;
 
 			default:
 				return weapon;
@@ -94,7 +94,7 @@ export const CurrentPlayer: React.FunctionComponent<Props> = React.memo((props: 
 
 	const secondaryWeapon = playerWeapons.find((weapon) => {
 		if (weapon.type === 'Pistol') return weapon;
-		return;
+		return undefined;
 	});
 
 	// Prevents name and health from moving down when player runs out of armour, just removes a moving part
@@ -113,7 +113,10 @@ export const CurrentPlayer: React.FunctionComponent<Props> = React.memo((props: 
 		<Container className={props.className}>
 			<TopBar>
 				{currentExtraDataPlayer?.image && (
-					<ProfilePicture country={currentExtraDataPlayer.country} url={currentExtraDataPlayer.image} />
+					<ProfilePicture
+						country={currentExtraDataPlayer.country}
+						url={currentExtraDataPlayer.image}
+					/>
 				)}
 				<HealthBar
 					health={curPlayer.state.health}
@@ -129,7 +132,10 @@ export const CurrentPlayer: React.FunctionComponent<Props> = React.memo((props: 
 			<BottomBar>
 				<StatsBox
 					style={{
-						border: curPlayer.team === 'CT' ? '1px solid var(--ct-col)' : '1px solid var(--t-col)',
+						border:
+							curPlayer.team === 'CT'
+								? '1px solid var(--ct-col)'
+								: '1px solid var(--t-col)',
 						borderTop: 'none',
 					}}>
 					<StatsText text="K" stat={playerStats.kills} />
@@ -140,7 +146,10 @@ export const CurrentPlayer: React.FunctionComponent<Props> = React.memo((props: 
 				<GrenadesBox
 					grenades={justGrenadeNames}
 					style={{
-						border: curPlayer.team === 'CT' ? '1px solid var(--ct-col)' : '1px solid var(--t-col)',
+						border:
+							curPlayer.team === 'CT'
+								? '1px solid var(--ct-col)'
+								: '1px solid var(--t-col)',
 						borderTop: 'none',
 					}}
 				/>

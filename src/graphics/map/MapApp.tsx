@@ -15,7 +15,6 @@ const Container = styled.div`
 	font-family: Roboto;
 `;
 
-
 export const MapApp: React.FunctionComponent = () => {
 	const [scoreBugWidth] = useReplicant<number, number>('scoreBugWidth', 1920);
 

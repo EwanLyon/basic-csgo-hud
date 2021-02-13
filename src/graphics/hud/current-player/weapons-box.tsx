@@ -102,7 +102,7 @@ interface Progress {
 }
 
 export const WeaponsBox: React.FunctionComponent<Props> = (props: Props) => {
-	// p for Primary, s for Secondary, n for None/Other
+	// P for Primary, s for Secondary, n for None/Other
 	const whichGun =
 		typeof props.primMax === 'number' ? 'p' : typeof props.secMax === 'number' ? 's' : 'n';
 	const currentAmmo = whichGun === 'p' ? props.primCur : props.secCur;
@@ -110,7 +110,11 @@ export const WeaponsBox: React.FunctionComponent<Props> = (props: Props) => {
 	const ammoClipMax = whichGun === 'p' ? props.primPossible : props.secPossible;
 
 	return (
-		<Container style={{border: !props.ct ? '1px solid var(--ct-col)' : '1px solid var(--t-col)', borderTop: 'none'}}>
+		<Container
+			style={{
+				border: props.ct ? '1px solid var(--t-col)' : '1px solid var(--ct-col)',
+				borderTop: 'none',
+			}}>
 			<SingleGrid style={{ minWidth: 55 }}>
 				<KillIndicatorContainer>
 					<KillIndicator active={props.kills > 4} ct={props.ct} />

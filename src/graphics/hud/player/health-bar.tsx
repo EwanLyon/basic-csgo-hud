@@ -1,19 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { CSGOAllplayer } from '../../../types/csgo-gsi';
+import { CSGO } from '../../../types/nodecg-csgo-manager';
 
 import { FitText, Text as FitTextText } from '../../components/fit-text';
 import { ProgressBarBox } from '../../components/progress-bar-box';
 import * as Weapon from '../../components/weapons';
-import { Weapon as CSGOWeapon } from '../../../types/csgo-gsi';
+// import { Weapon as CSGOWeapon } from '../../../types/csgo-gsi';
 
 const HealthBarContainer = styled.div`
 	position: relative;
 `;
 
 const PlayerName = styled(FitText)`
-	justify-content: ${(props: StyleProps): string => (props.right ? 'flex-end' : 'flex-start')} !important;
+	justify-content: ${(props: StyleProps): string =>
+		props.right ? 'flex-end' : 'flex-start'} !important;
 	color: ${(props: StyleProps): string => (props.dead ? 'rgba(255, 255, 255, 0.7)' : '#FFF')};
 	font-size: 25px;
 	line-height: 38px;
@@ -69,10 +70,10 @@ interface StyleProps {
 
 interface Props {
 	right?: boolean;
-	playerData: CSGOAllplayer;
+	playerData: CSGO.CSGOAllplayer;
 	ct?: boolean;
 	observed?: boolean;
-	primaryWeapon?: CSGOWeapon | undefined;
+	primaryWeapon?: CSGO.Weapon | undefined;
 }
 
 export const HealthBar: React.FC<Props> = (props: Props) => {
@@ -90,7 +91,12 @@ export const HealthBar: React.FC<Props> = (props: Props) => {
 			/>
 			<HealthBarOverlay right={props.right}>
 				<HealthText>{props.playerData.state.health}</HealthText>
-				<PlayerName right={props.right} text={props.playerData.name} dead={dead} observed={props.observed} />
+				<PlayerName
+					right={props.right}
+					text={props.playerData.name}
+					dead={dead}
+					observed={props.observed}
+				/>
 
 				<WeaponContainer>
 					{props.primaryWeapon && (
@@ -98,7 +104,12 @@ export const HealthBar: React.FC<Props> = (props: Props) => {
 							active={props.primaryWeapon.state === 'active'}
 							flip={props.right}
 							right={props.right}
-							item={props.primaryWeapon.name.replace('weapon_', '') as Weapon.PrimaryWeaponList}
+							item={
+								props.primaryWeapon.name.replace(
+									'weapon_',
+									'',
+								) as Weapon.PrimaryWeaponList
+							}
 						/>
 					)}
 				</WeaponContainer>

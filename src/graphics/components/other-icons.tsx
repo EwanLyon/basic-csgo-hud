@@ -5,7 +5,7 @@ const otherImages = {
 	defuse: require('../images/equipment/defuser.svg'),
 	bombExplode: require('../images/misc/bomb_explode.svg'),
 	timeExpire: require('../images/misc/time_expire.svg'),
-	skull: require('../images/misc/skull.svg')
+	skull: require('../images/misc/skull.svg'),
 };
 
 interface Props {

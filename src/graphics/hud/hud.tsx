@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 
 // Import { useReplicant } from 'use-nodecg';
 // import { CSGOOutput, MatchStats, Weapon } from '../../types/csgo-gsi';
-import { DummyProducer } from '../../extensions/dummyData';
 // Import { TeamData } from '../../types/extra-data';
 import { Producer } from '../../types/producer';
 import { ComponentAnimation } from '../../types/animations';
@@ -107,7 +106,10 @@ export const HUD: React.FunctionComponent = () => {
 	const matchStats = useSelector((state: stateType) => state.matchStats);
 	const phase = useSelector((state: stateType) => state.phase.phase);
 
-	const [producerRep] = useReplicant<Producer, Producer>('producer', DummyProducer);
+	const [producerRep] = useReplicant<Producer, Producer>('producer', {
+		teamEco: false,
+		teamNades: false,
+	});
 	const scoreBugRef = useRef<HTMLDivElement>(null);
 	const roundHistoryRef = useRef<ComponentAnimation>(null);
 	const leftTeamEcoRef = useRef<ComponentAnimation>(null);
@@ -158,7 +160,7 @@ export const HUD: React.FunctionComponent = () => {
 
 	useEffect(() => {
 		if (scoreBugRef.current) setScoreBugWidth(scoreBugRef.current.offsetWidth);
-	}, [scoreBugRef?.current?.offsetWidth]);
+	}, [setScoreBugWidth]);
 
 	return (
 		<Container>
@@ -181,7 +183,13 @@ export const HUD: React.FunctionComponent = () => {
 
 			<RightGameStats>
 				<TeamEco ref={rightTeamEcoRef} phase={phase} ct={!ct} right teamTwo={!swapTeams} />
-				<TeamNade ref={rightTeamNadesRef} phase={phase} ct={!ct} right teamTwo={!swapTeams} />
+				<TeamNade
+					ref={rightTeamNadesRef}
+					phase={phase}
+					ct={!ct}
+					right
+					teamTwo={!swapTeams}
+				/>
 			</RightGameStats>
 
 			<Current />

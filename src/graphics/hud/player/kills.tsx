@@ -10,7 +10,8 @@ const KillBox = styled.div`
 	height: 70px;
 	width: 5px;
 	margin: 0 2px;
-	background-color: ${(props: StyleProps): string => (props.ct ? 'var(--t-col)' : 'var(--ct-col)')};
+	background-color: ${(props: StyleProps): string =>
+		props.ct ? 'var(--t-col)' : 'var(--ct-col)'};
 `;
 
 interface StyleProps {

@@ -9,7 +9,13 @@ import { MapImages, MapList } from '../components/map-images';
 
 import { SelectedMaps } from './selected-maps';
 import { Grenade } from './grenade';
-import { PlayerIcon, CarriedBombIcon, DroppedBombIcon, DeadPlayer, FlashingBomb } from './player-icon';
+import {
+	PlayerIcon,
+	CarriedBombIcon,
+	DroppedBombIcon,
+	DeadPlayer,
+	FlashingBomb,
+} from './player-icon';
 
 const MapContainer = styled.div`
 	font-family: Roboto;
@@ -74,11 +80,18 @@ export const Map: React.FC<Props> = (props: Props) => {
 		const posArray = player.position || [0, 0, 0];
 
 		if (player.health === 0) {
-			playerIconMap.push(<DeadPlayer map={currentMap} ct={player.ct} position={posArray} key={player.steamId} />);
+			playerIconMap.push(
+				<DeadPlayer
+					map={currentMap}
+					ct={player.ct}
+					position={posArray}
+					key={player.steamId}
+				/>,
+			);
 			continue;
 		}
 
-		// const rotationArray = currentPlayerPos[player.steamId]?.rotation || [0, 0, 0];
+		// Const rotationArray = currentPlayerPos[player.steamId]?.rotation || [0, 0, 0];
 		const rotationArray = player.rotation || [0, 0, 0];
 
 		if (bomb?.player === player.steamId && bomb?.state !== 'dropped') {
@@ -115,10 +128,14 @@ export const Map: React.FC<Props> = (props: Props) => {
 
 	if (bomb?.state === 'dropped') {
 		const bombPosArray = bomb.position.split(', ').map(Number);
-		playerIconMap.push(<DroppedBombIcon position={bombPosArray} map={currentMap} key={'bomb'} />);
+		playerIconMap.push(
+			<DroppedBombIcon position={bombPosArray} map={currentMap} key={'bomb'} />,
+		);
 	} else if (bomb?.state === 'planted') {
 		const bombPosArray = bomb.position.split(', ').map(Number);
-		playerIconMap.push(<FlashingBomb position={bombPosArray} map={currentMap} key={'plantedBomb'} />);
+		playerIconMap.push(
+			<FlashingBomb position={bombPosArray} map={currentMap} key={'plantedBomb'} />,
+		);
 	}
 
 	// Reset grenade arrays on round reset
@@ -134,7 +151,7 @@ export const Map: React.FC<Props> = (props: Props) => {
 		if (mapPhase === 'live' && resetNades) {
 			setResetNades(false);
 		}
-	}, []);
+	}, [mapPhase, resetNades]);
 
 	// FLASHBANGS & FRAG GRENADES
 	useEffect(() => {
@@ -148,8 +165,16 @@ export const Map: React.FC<Props> = (props: Props) => {
 						key={grenade.key}
 						type="flashbang"
 						style={{
-							left: `${scaleTo100(grenadeLocation[0], currentMap.xMin, currentMap.xMax)}%`,
-							bottom: `${scaleTo100(grenadeLocation[1], currentMap.yMin, currentMap.yMax)}%`,
+							left: `${scaleTo100(
+								grenadeLocation[0],
+								currentMap.xMin,
+								currentMap.xMax,
+							)}%`,
+							bottom: `${scaleTo100(
+								grenadeLocation[1],
+								currentMap.yMin,
+								currentMap.yMax,
+							)}%`,
 						}}
 					/>,
 				]);
@@ -174,8 +199,16 @@ export const Map: React.FC<Props> = (props: Props) => {
 						key={grenade.key}
 						type="frag"
 						style={{
-							left: `${scaleTo100(grenadeLocation[0], currentMap.xMin, currentMap.xMax)}%`,
-							bottom: `${scaleTo100(grenadeLocation[1], currentMap.yMin, currentMap.yMax)}%`,
+							left: `${scaleTo100(
+								grenadeLocation[0],
+								currentMap.xMin,
+								currentMap.xMax,
+							)}%`,
+							bottom: `${scaleTo100(
+								grenadeLocation[1],
+								currentMap.yMin,
+								currentMap.yMax,
+							)}%`,
 						}}
 					/>,
 				]);
@@ -215,13 +248,18 @@ export const Map: React.FC<Props> = (props: Props) => {
 					setTempGrenades(grenadeArray);
 				} else {
 					// Add new temp
-					setTempGrenades([...tempGrenades, { key, position: grenade.position, type: grenade.type }]);
+					setTempGrenades([
+						...tempGrenades,
+						{ key, position: grenade.position, type: grenade.type },
+					]);
 				}
 
 				continue;
 			}
 
-			const ct = Object.values(allPlayers).find((player) => player.steamId === grenade.owner)?.team === 'CT';
+			const ct =
+				Object.values(allPlayers).find((player) => player.steamId === grenade.owner)
+					?.team === 'CT';
 			let grenadeType = grenade.type;
 
 			// Skip firebomb
@@ -241,8 +279,16 @@ export const Map: React.FC<Props> = (props: Props) => {
 								type={grenadeType}
 								key={key}
 								style={{
-									left: `${scaleTo100(fireLocation[0], currentMap.xMin, currentMap.xMax)}%`,
-									bottom: `${scaleTo100(fireLocation[1], currentMap.yMin, currentMap.yMax)}%`,
+									left: `${scaleTo100(
+										fireLocation[0],
+										currentMap.xMin,
+										currentMap.xMax,
+									)}%`,
+									bottom: `${scaleTo100(
+										fireLocation[1],
+										currentMap.yMin,
+										currentMap.yMax,
+									)}%`,
 								}}
 							/>,
 						);
@@ -260,8 +306,16 @@ export const Map: React.FC<Props> = (props: Props) => {
 						ct={ct}
 						key={key}
 						style={{
-							left: `${scaleTo100(grenadePosArray[0], currentMap.xMin, currentMap.xMax)}%`,
-							bottom: `${scaleTo100(grenadePosArray[1], currentMap.yMin, currentMap.yMax)}%`,
+							left: `${scaleTo100(
+								grenadePosArray[0],
+								currentMap.xMin,
+								currentMap.xMax,
+							)}%`,
+							bottom: `${scaleTo100(
+								grenadePosArray[1],
+								currentMap.yMin,
+								currentMap.yMax,
+							)}%`,
 						}}
 						type={grenadeType}
 					/>,

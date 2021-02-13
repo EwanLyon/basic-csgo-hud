@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { Team } from '../../../types/team-preset';
+import { TeamPreset } from '../../../types/nodecg-csgo-manager';
 import { stateType } from '../../replicant-store';
 
 import { FitText, Text as FitTextText } from '../../components/fit-text';
@@ -16,10 +16,10 @@ const Container = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	flex-direction: ${(props: Both): string => (props.right ? 'row-reverse' : 'row')};
-	border: 1px solid ${(props: Both): string => (props.ct ? 'var(--ct-col)' : 'var(--t-col)')};
-	border-right: ${(props: Both): string => (props.right ? '' : 'none')};
-	border-left: ${(props: Both): string => (props.right ? 'none' : '')};
+	flex-direction: ${(props: StyleProps): string => (props.right ? 'row-reverse' : 'row')};
+	border: 1px solid ${(props: StyleProps): string => (props.ct ? 'var(--ct-col)' : 'var(--t-col)')};
+	border-right: ${(props: StyleProps): string => (props.right ? '' : 'none')};
+	border-left: ${(props: StyleProps): string => (props.right ? 'none' : '')};
 	background: var(--bg-col);
 `;
 
@@ -27,10 +27,10 @@ const Score = styled.span`
 	font-size: 64px;
 	width: 72px;
 	text-align: center;
-	color: ${(props: Both): string => (props.ct ? 'var(--ct-col)' : 'var(--t-col)')};
-	margin: ${(props: Both): string => (props.right ? '0 39px 0 0' : '0 0 0 39px')};
+	color: ${(props: StyleProps): string => (props.ct ? 'var(--ct-col)' : 'var(--t-col)')};
+	margin: ${(props: StyleProps): string => (props.right ? '0 39px 0 0' : '0 0 0 39px')};
 	height: 72px;
-    line-height: 68px;
+	line-height: 68px;
 `;
 
 const SingleGrid = styled.div`
@@ -41,7 +41,7 @@ const TeamName = styled(Text)`
 	font-size: 47px;
 	max-width: 500px;
 	text-transform: uppercase;
-	color: ${(props: CTProps) => (props.ct ? 'var(--ct-col)' : 'var(--t-col)')};
+	color: ${(props: StyleProps) => (props.ct ? 'var(--ct-col)' : 'var(--t-col)')};
 	grid-column: 1;
 	grid-row: 1;
 `;
@@ -49,7 +49,7 @@ const TeamName = styled(Text)`
 const TeamLogo = styled.img`
 	height: 50px;
 	width: auto;
-	margin: ${(props: OnRightProps) => (props.right ? '0 22px 0 49px' : '0 49px 0 22px')};
+	margin: ${(props: StyleProps) => (props.right ? '0 22px 0 49px' : '0 49px 0 22px')};
 	grid-column: 1;
 	grid-row: 1;
 `;
@@ -68,27 +68,20 @@ const MatchWinsBox = styled.div`
 const MatchWins = styled.div`
 	width: ${matchWinsSize}px;
 	height: ${matchWinsSize}px;
-	background: ${(props: MatchWin) => (props.win ? (props.ct ? 'var(--ct-col)' : 'var(--t-col)') : '')};
-	border: 1px solid ${(props: MatchWin) => (props.ct ? 'var(--ct-col)' : 'var(--t-col)')};
+	background: ${(props: StyleProps) =>
+		props.win ? (props.ct ? 'var(--ct-col)' : 'var(--t-col)') : ''};
+	border: 1px solid ${(props: StyleProps) => (props.ct ? 'var(--ct-col)' : 'var(--t-col)')};
 `;
 
-interface MatchWin extends CTProps {
+interface StyleProps {
 	win?: boolean;
-}
-
-interface OnRightProps {
 	right?: boolean;
-}
-
-interface CTProps {
 	ct?: boolean;
 }
 
-interface Both extends CTProps, OnRightProps {}
-
 interface Props {
-	displayingTeam: Team | undefined;
-	oppositeTeam: Team | undefined;
+	displayingTeam: TeamPreset.TeamMeta | undefined;
+	oppositeTeam: TeamPreset.TeamMeta | undefined;
 	right?: boolean;
 	ct?: boolean;
 	score: string;
@@ -117,7 +110,9 @@ export const Wing: React.FunctionComponent<Props> = React.memo((props: Props) =>
 	// Fill match boxes
 	const matchWinsBoxes: JSX.Element[] = [];
 	for (let i = 0; i < numberOfBoxes; i++) {
-		matchWinsBoxes.push(<MatchWins key={i} win={props.matchesWonThisSeries >= i + 1} ct={props.ct} />);
+		matchWinsBoxes.push(
+			<MatchWins key={i} win={props.matchesWonThisSeries >= i + 1} ct={props.ct} />,
+		);
 	}
 
 	return (
@@ -126,7 +121,11 @@ export const Wing: React.FunctionComponent<Props> = React.memo((props: Props) =>
 				{/* Super hacky way to get both wings the same width.
 				Put an invisible verison of the other team behind it */}
 				<TeamLogo src={props.displayingTeam?.logo || ''} right={props.right} />
-				<TeamLogo src={props.oppositeTeam?.logo || ''} right={props.right} style={{ opacity: 0 }} />
+				<TeamLogo
+					src={props.oppositeTeam?.logo || ''}
+					right={props.right}
+					style={{ opacity: 0 }}
+				/>
 			</SingleGrid>
 
 			<SingleGrid>

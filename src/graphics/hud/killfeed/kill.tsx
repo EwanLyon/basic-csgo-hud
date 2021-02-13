@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import gsap from 'gsap';
 
-import { PlayerDeath } from '../../../types/hlae';
+import { HLAE } from '../../../types/nodecg-csgo-manager';
 import { stateType } from '../../replicant-store';
 import { KillIcon } from './kill-icon';
 
@@ -24,14 +24,20 @@ const InfoIcon = styled.img`
 `;
 
 interface Props {
-	data: PlayerDeath;
+	data: HLAE.PlayerDeath;
 }
 
 export const Kill: React.FC<Props> = (props: Props) => {
 	const containerRef = useRef<HTMLDivElement>(null);
-	const playerDead = useSelector((state: stateType) => state.game.allplayers[props.data.keys.userid.xuid]);
-	const attacker = useSelector((state: stateType) => state.game.allplayers[props.data.keys.attacker.xuid]);
-	const assister = useSelector((state: stateType) => state.game.allplayers[props.data.keys.assister.xuid]);
+	const playerDead = useSelector(
+		(state: stateType) => state.game.allplayers[props.data.keys.userid.xuid],
+	);
+	const attacker = useSelector(
+		(state: stateType) => state.game.allplayers[props.data.keys.attacker.xuid],
+	);
+	const assister = useSelector(
+		(state: stateType) => state.game.allplayers[props.data.keys.assister.xuid],
+	);
 
 	useEffect(() => {
 		const tl = gsap.timeline();

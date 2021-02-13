@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
 import styled from 'styled-components';
 // @ts-ignore
@@ -126,7 +127,7 @@ export const HealthBar: React.FunctionComponent<Props> = (props: Props) => {
 	const healthBarColour: React.CSSProperties = {
 		background: `linear-gradient(to left, ${props.ct ? 'var(--ct-col)' : 'var(--t-col)'}, ${
 			props.ct ? 'var(--ct-col)' : 'var(--t-col)'
-		} ${100 - props.health + 5}%) `
+		} ${100 - props.health + 5}%) `,
 	};
 
 	const ArmourBarStyle: React.CSSProperties = {

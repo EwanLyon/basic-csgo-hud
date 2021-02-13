@@ -5,7 +5,7 @@ import gsap from 'gsap';
 
 import { stateType } from '../../replicant-store';
 
-import { CSGOBomb } from '../../../types/csgo-gsi';
+import CSGOManager from '../../../types/nodecg-csgo-manager';
 
 const Container = styled.div`
 	width: 654px;
@@ -77,7 +77,7 @@ interface HasKit {
 }
 
 interface Props {
-	bomb: CSGOBomb;
+	bomb: CSGOManager.CSGO.CSGOBomb;
 	playerName: string;
 	className?: string;
 	kit?: boolean;
@@ -97,33 +97,42 @@ export const BombPlanted: React.FC<Props> = (props) => {
 	useEffect(() => {
 		switch (props.bomb.state) {
 			case 'planting':
-				gsap.to(containerRef.current, { y: 0, duration: 1, opacity: 1 });	// Show element
-				gsap.to(plantRef.current, { width: '100%', duration: gameSettings.bombPlantTime, ease: 'none' });
+				gsap.to(containerRef.current, { y: 0, duration: 1, opacity: 1 }); // Show element
+				gsap.to(plantRef.current, {
+					width: '100%',
+					duration: gameSettings.bombPlantTime,
+					ease: 'none',
+				});
 				break;
 
 			case 'planted':
-				gsap.to(bombRef.current, { width: '100%', duration: gameSettings.bombTime, ease: 'none' });
+				gsap.to(bombRef.current, {
+					width: '100%',
+					duration: gameSettings.bombTime,
+					ease: 'none',
+				});
 				break;
 
 			case 'defusing': {
 				gsap.to(defuseRef.current, {
 					width: '100%',
-					duration: props.kit ? gameSettings.kitDefusedTime : gameSettings.noKitDefuseTime,
-					ease: 'none'
+					duration: props.kit ? gameSettings.kitDefuseTime : gameSettings.noKitDefuseTime,
+					ease: 'none',
 				});
 				break;
 			}
+
 			case 'exploded':
 			case 'defused':
 			case 'carried':
-				gsap.killTweensOf([bombRef.current, plantRef.current, defuseRef.current]);	// Stop all animations
-				gsap.set([bombRef.current, plantRef.current, defuseRef.current], { width: '0%' });	// Reset all animations
-				gsap.to(containerRef.current, { y: -50, duration: 1, opacity: 0 });	// Hide element
+				gsap.killTweensOf([bombRef.current, plantRef.current, defuseRef.current]); // Stop all animations
+				gsap.set([bombRef.current, plantRef.current, defuseRef.current], { width: '0%' }); // Reset all animations
+				gsap.to(containerRef.current, { y: -50, duration: 1, opacity: 0 }); // Hide element
 				break;
 			default:
 				break;
 		}
-	}, [props.bomb.state]);
+	}, [props.bomb.state, gameSettings, props.kit]);
 
 	return (
 		<Container className={props.className} ref={containerRef} style={props.style}>
@@ -138,10 +147,16 @@ export const BombPlanted: React.FC<Props> = (props) => {
 			/>
 			<PlayerText kit={props.kit}>
 				{playerConditions.includes(props.bomb.state)
-					? `${props.playerName} ${props.bomb.state === 'defusing' ? 'is defusing' : 'is planting'}`
+					? `${props.playerName} ${
+							props.bomb.state === 'defusing' ? 'is defusing' : 'is planting'
+					  }`
 					: ''}
 			</PlayerText>
-			{props.bomb.state === 'planted' || props.bomb.state === 'defusing' ? <TenSecondMark /> : ''}
+			{props.bomb.state === 'planted' || props.bomb.state === 'defusing' ? (
+				<TenSecondMark />
+			) : (
+				''
+			)}
 		</Container>
 	);
 };

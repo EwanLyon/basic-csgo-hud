@@ -9,6 +9,7 @@ import { Armour } from '../../components/armour';
 import { OtherIcons } from '../../components/other-icons';
 import { HealthBar } from './health-bar';
 import { Kills } from './kills';
+import { DeadInfo } from './dead-info';
 
 const Container = styled.div`
 	display: flex;
@@ -118,7 +119,7 @@ export const Player: React.FunctionComponent<Props> = React.memo((props: Props) 
 	const grenadeList = weapons
 		.filter((weapon) => {
 			if (weapon.type === 'Grenade') return weapon;
-			return;
+			return undefined;
 		})
 		.map((grenade, index) => {
 			return (
@@ -136,7 +137,7 @@ export const Player: React.FunctionComponent<Props> = React.memo((props: Props) 
 			case 'Grenade':
 			case 'Knife':
 			case 'Pistol':
-				return;
+				return undefined;
 
 			default:
 				return weapon;
@@ -145,7 +146,7 @@ export const Player: React.FunctionComponent<Props> = React.memo((props: Props) 
 
 	const secondaryWeapon = weapons.find((weapon) => {
 		if (weapon.type === 'Pistol') return weapon;
-		return;
+		return undefined;
 	});
 
 	return (
@@ -162,13 +163,9 @@ export const Player: React.FunctionComponent<Props> = React.memo((props: Props) 
 				<LowerBar right={props.right}>
 					<EquipmentBar>
 						{Boolean(player.state.armor) && <ArmourImg helmet={player.state.helmet} />}
-						{isCT ? (
-							player.state.defusekit && (
-								<BombDefuseImg item="defuse" />
-							)
-						) : (
-							carryingBomb && <BombDefuseImg item="bomb" />
-						)}
+						{isCT
+							? player.state.defusekit && <BombDefuseImg item="defuse" />
+							: carryingBomb && <BombDefuseImg item="bomb" />}
 					</EquipmentBar>
 
 					<MoneyText right={props.right}>
@@ -182,10 +179,21 @@ export const Player: React.FunctionComponent<Props> = React.memo((props: Props) 
 							<SecondaryWeapon
 								active={secondaryWeapon.state === 'active'}
 								flip={props.right}
-								item={secondaryWeapon.name.replace('weapon_', '') as Weapon.SecondaryWeaponList}
+								item={
+									secondaryWeapon.name.replace(
+										'weapon_',
+										'',
+									) as Weapon.SecondaryWeaponList
+								}
 							/>
 						)}
 					</SecondaryWeaponHolder>
+					{player.state.health <= 0 && (
+						<DeadInfo
+							style={{ height: 70, marginTop: -38 }}
+							matchStats={player.match_stats}
+						/>
+					)}
 				</LowerBar>
 			</PlayerContainer>
 			<Kills killsNumber={player.state.round_kills} ct={isCT} />

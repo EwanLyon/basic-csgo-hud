@@ -11,5 +11,10 @@ interface Props {
 }
 
 export const Armour: React.FunctionComponent<Props> = (props: Props) => {
-	return <img className={props.className} src={props.helmet ? armourImages.helmet : armourImages.normal} />;
+	return (
+		<img
+			className={props.className}
+			src={props.helmet ? armourImages.helmet : armourImages.normal}
+		/>
+	);
 };

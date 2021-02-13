@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useListenFor } from 'use-nodecg';
 
-import { PlayerDeath } from '../../../types/hlae';
+import { HLAE } from '../../../types/nodecg-csgo-manager';
 import { stateType } from '../../replicant-store';
 
 import { Kill } from './kill';
@@ -17,11 +17,11 @@ const KillfeedContainer = styled.div`
 
 export const Killfeed: React.FC = () => {
 	// Const matchKills = useSelector((state: stateType) => state.matchKills);
-	const [currentKills, setCurrentKills] = useState<PlayerDeath[]>([]);
+	const [currentKills, setCurrentKills] = useState<HLAE.PlayerDeath[]>([]);
 	const round = useSelector((state: stateType) => state.matchStats.round);
 	useListenFor(
 		'hlae-playerDeath',
-		(data: PlayerDeath) => {
+		(data: HLAE.PlayerDeath) => {
 			setCurrentKills([...currentKills, data]);
 		},
 		{ bundle: 'nodecg-csgo-manager' },

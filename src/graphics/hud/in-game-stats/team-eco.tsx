@@ -7,7 +7,7 @@ import { stateType } from '../../replicant-store';
 import { ComponentAnimation } from '../../../types/animations';
 
 import { Grid } from '@material-ui/core';
-import { CSGOPhaseCountdowns } from '../../../types/csgo-gsi';
+import { CSGO } from '../../../types/nodecg-csgo-manager';
 
 const Container = styled.div`
 	position: relative;
@@ -63,7 +63,7 @@ interface CT {
 }
 
 interface Props {
-	phase: CSGOPhaseCountdowns['phase'];
+	phase: CSGO.CSGOPhaseCountdowns['phase'];
 	ct?: boolean;
 	right?: boolean;
 	style?: React.CSSProperties;
@@ -72,7 +72,9 @@ interface Props {
 }
 
 export const TeamEco = React.forwardRef<ComponentAnimation, Props>((props, ref) => {
-	const teamData = useSelector((state: stateType) => (props.teamTwo ? state.teamTwo : state.teamOne));
+	const teamData = useSelector((state: stateType) =>
+		props.teamTwo ? state.teamTwo : state.teamOne,
+	);
 	const containerRef = useRef<HTMLDivElement>(null);
 
 	useImperativeHandle(ref, () => ({
@@ -159,3 +161,5 @@ export const TeamEco = React.forwardRef<ComponentAnimation, Props>((props, ref) 
 		</Container>
 	);
 });
+
+TeamEco.displayName = 'TeamEco';
