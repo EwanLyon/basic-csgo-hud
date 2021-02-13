@@ -10,5 +10,5 @@
 		"**/*.ts",
 		"**/*.tsx",
 		"../../../../types/browser.d.ts"
-	]
+, "hud/round-history"	]
 }

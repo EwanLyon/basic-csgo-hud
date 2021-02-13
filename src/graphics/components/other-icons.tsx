@@ -3,6 +3,9 @@ import React from 'react';
 const otherImages = {
 	bomb: require('../images/equipment/bomb.svg'),
 	defuse: require('../images/equipment/defuser.svg'),
+	bombExplode: require('../images/misc/bomb_explode.svg'),
+	timeExpire: require('../images/misc/time_expire.svg'),
+	skull: require('../images/misc/skull.svg')
 };
 
 interface Props {

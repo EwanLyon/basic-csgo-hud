@@ -25,7 +25,7 @@ interface Props {
 export const Kills: React.FC<Props> = (props: Props) => {
 	const KillBoxes = [];
 	for (let i = 0; i < props.killsNumber; i++) {
-		KillBoxes.push(<KillBox ct={props.ct} />);
+		KillBoxes.push(<KillBox ct={props.ct} key={i} />);
 	}
 
 	return <KillsContainer>{KillBoxes}</KillsContainer>;

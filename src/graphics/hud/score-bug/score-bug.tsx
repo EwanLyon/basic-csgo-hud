@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-import gsap from 'gsap';
 
 import { stateType } from '../../replicant-store';
 
@@ -52,10 +51,6 @@ interface Props {
 	style?: React.CSSProperties;
 }
 
-const bombConditions = ['planting', 'planted', 'defusing', 'defused', 'exploded'];
-const bombShowPos = 118;
-const bombHidePos = 40;
-
 function currentTeamSide(round: number) {
 	if (round < 15) {
 		return true;
@@ -82,10 +77,7 @@ export const ScoreBug: React.FunctionComponent<Props> = (props: Props) => {
 
 	const [playerKit, setPlayerKit] = useState(false);
 	const time = parseFloat(phase.phase_ends_in);
-	const tl = useRef<gsap.core.Timeline>();
-	const bombElement = useRef<HTMLDivElement>(null);
 	const [playerName, setPlayerName] = useState('');
-	const [animating, setAnimating] = useState(false);
 	const [currentRound, setCurrentRound] = useState(0);
 
 	const roundWinner = round?.win_team || '';
@@ -111,37 +103,10 @@ export const ScoreBug: React.FunctionComponent<Props> = (props: Props) => {
 		);
 	}
 
-	const bombAnimation = (stage: string): void => {
-		if (tl.current) {
-			const currentTime = tl.current.time();
-			const labelTime = tl.current.labels[stage];
-
-			tl.current.resume();
-			if (currentTime >= labelTime) {
-				tl.current.play(labelTime);
-			} else {
-				gsap.to(tl.current, {
-					duration: 0.3,
-					time: labelTime,
-					ease: 'none',
-					onComplete: () => {
-						if (tl && tl.current) {
-							tl.current.resume();
-						}
-					},
-				});
-			}
-		}
-	};
-
 	useEffect(() => {
 		// No bomb in warmup
 		if (bomb === undefined) {
 			return;
-		}
-
-		if (animating && ['carried', 'planted'].includes(bomb.state)) {
-			setAnimating(false);
 		}
 
 		if (bomb.state === 'defusing') {
@@ -157,37 +122,8 @@ export const ScoreBug: React.FunctionComponent<Props> = (props: Props) => {
 			if (player) {
 				setPlayerName(player.name);
 			}
-
-			if (!animating) {
-				setAnimating(true);
-				bombAnimation('ShowBomb');
-			}
-		} else if (bomb.state === 'exploded' || bomb.state === 'defused') {
-			if (!animating) {
-				setAnimating(true);
-				bombAnimation('HideBomb');
-			}
 		}
-	}, [animating, allPlayers, bomb]);
-
-	// Create timeline
-	useEffect(() => {
-		tl.current = gsap.timeline({ paused: true });
-
-		// Console.log('instantiating timeline');
-
-		tl.current.addLabel('ShowBomb');
-
-		tl.current.set(bombElement.current, { top: bombHidePos, opacity: 0 });
-		tl.current.to(bombElement.current, { top: bombShowPos, opacity: 1 });
-
-		tl.current.addPause('+=0.1');
-
-		tl.current.addLabel('HideBomb');
-
-		tl.current.set(bombElement.current, { top: bombShowPos, opacity: 1 });
-		tl.current.to(bombElement.current, { top: bombHidePos, opacity: 0 });
-	}, []);
+	}, [allPlayers, bomb]);
 
 	useEffect(() => {
 		if (phase.phase === 'freezetime' && currentRound !== matchStats.round) {
@@ -220,11 +156,9 @@ export const ScoreBug: React.FunctionComponent<Props> = (props: Props) => {
 				/>
 			</Grid>
 			<BombPlantedStyled
-				phase={bomb?.state || 'carried'}
+				bomb={bomb}
 				playerName={playerName || ''}
 				kit={bomb?.state === 'defusing' ? playerKit : false}
-				ref={bombElement}
-				style={bombConditions.includes(bomb?.state) ? {} : { display: 'none' }}
 			/>
 		</Container>
 	);

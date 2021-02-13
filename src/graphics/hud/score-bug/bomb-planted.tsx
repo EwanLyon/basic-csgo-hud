@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import gsap from 'gsap';
 
 import { stateType } from '../../replicant-store';
 
-import { ProgressBarBox } from '../../components/progress-bar-box';
+import { CSGOBomb } from '../../../types/csgo-gsi';
 
 const Container = styled.div`
 	width: 654px;
@@ -14,21 +15,35 @@ const Container = styled.div`
 	justify-content: center;
 	border: 1px solid #eebe11;
 	background: rgba(0, 0, 0, 0.5);
+	opacity: 0;
+	transform: translate(0, -50px);
 `;
 
-const PlantTimer = styled(ProgressBarBox)`
+const ProgressContainer = styled.div`
 	width: 630px;
 	height: 22px;
+	position: relative;
 `;
 
-const BombTimer = styled(PlantTimer)`
+const PlantProgress = styled.div`
 	position: absolute;
+	left: 0;
+	height: 100%;
 	background: rgba(0, 0, 0, 0.5);
 `;
 
-const DefuseTimer = styled(BombTimer)`
-	z-index: 1;
-	border: none;
+const BombProgress = styled.div`
+	position: absolute;
+	left: 0;
+	height: 100%;
+	background: linear-gradient(to left, #f46666, rgba(244, 102, 102, 0.3) 50%);
+`;
+
+const DefuseProgress = styled.div`
+	position: absolute;
+	left: 0;
+	height: 100%;
+	background: linear-gradient(to left, #0c7bc0, rgba(12, 123, 192, 0.3) 70%);
 `;
 
 const PlayerText = styled.span`
@@ -62,7 +77,7 @@ interface HasKit {
 }
 
 interface Props {
-	phase: string;
+	bomb: CSGOBomb;
 	playerName: string;
 	className?: string;
 	kit?: boolean;
@@ -70,153 +85,65 @@ interface Props {
 	style?: React.CSSProperties;
 }
 
-// Const conditions = ['planting', 'planted', 'defusing'];
-
 const playerConditions = ['planting', 'defusing'];
 
-function addSeconds(dateMS: number, seconds: number): number {
-	return dateMS + seconds * 1000;
-}
+export const BombPlanted: React.FC<Props> = (props) => {
+	const containerRef = useRef<HTMLDivElement>(null);
+	const plantRef = useRef<HTMLDivElement>(null);
+	const bombRef = useRef<HTMLDivElement>(null);
+	const defuseRef = useRef<HTMLDivElement>(null);
+	const gameSettings = useSelector((state: stateType) => state.gameSettings);
 
-export const BombPlanted: React.FC<Props> = React.forwardRef(
-	// eslint-disable-next-line complexity
-	(props: Props, ref: React.Ref<HTMLDivElement>) => {
-		const gameSettings = useSelector((state: stateType) => state.gameSettings);
-		const [bombTime, setBombTime] = useState<number>(Date.now());
-		const [defuseTime, setDefuseTime] = useState<number>(Date.now());
-		const [plantTime, setPlantTime] = useState<number>(Date.now());
-		// Const [updateState, setUpdateState] = useState<number>(0);
-		const [startedPlant, setStartedPlant] = useState(false);
-		const [startedBomb, setStartedBomb] = useState(false);
-		const [startedDefuse, setStartedDefuse] = useState(false);
+	useEffect(() => {
+		switch (props.bomb.state) {
+			case 'planting':
+				gsap.to(containerRef.current, { y: 0, duration: 1, opacity: 1 });	// Show element
+				gsap.to(plantRef.current, { width: '100%', duration: gameSettings.bombPlantTime, ease: 'none' });
+				break;
 
-		// Updates component every 10 milliseconds, should be fine...
-		// useEffect(() => {
-		// 	const interval = setInterval(() => {
-		// 		setUpdateState(updateState + 1);
-		// 	}, 10);
-		// 	return (): void => clearInterval(interval);
-		// }, [updateState]);
+			case 'planted':
+				gsap.to(bombRef.current, { width: '100%', duration: gameSettings.bombTime, ease: 'none' });
+				break;
 
-		let bombProgress = 0;
-		let plantProgress = 0;
-		let defuseProgress = 0;
-		if (props.phase === 'planting') {
-			if (startedPlant) {
-				const plantSetDate = addSeconds(plantTime, -gameSettings.bombPlantTime);
-				plantProgress = ((Date.now() - plantSetDate) / (plantTime - plantSetDate)) * 100;
-			} else {
-				setStartedPlant(true);
-				setPlantTime(addSeconds(Date.now(), gameSettings.bombPlantTime));
+			case 'defusing': {
+				gsap.to(defuseRef.current, {
+					width: '100%',
+					duration: props.kit ? gameSettings.kitDefusedTime : gameSettings.noKitDefuseTime,
+					ease: 'none'
+				});
+				break;
 			}
+			case 'exploded':
+			case 'defused':
+			case 'carried':
+				gsap.killTweensOf([bombRef.current, plantRef.current, defuseRef.current]);	// Stop all animations
+				gsap.set([bombRef.current, plantRef.current, defuseRef.current], { width: '0%' });	// Reset all animations
+				gsap.to(containerRef.current, { y: -50, duration: 1, opacity: 0 });	// Hide element
+				break;
+			default:
+				break;
 		}
+	}, [props.bomb.state]);
 
-		if (props.phase === 'planted') {
-			if (startedBomb) {
-				if (startedDefuse) {
-					// Reset defuse time
-					setStartedDefuse(false);
-				}
-
-				const bombSetDate = addSeconds(bombTime, -gameSettings.bombTime);
-				bombProgress = ((Date.now() - bombSetDate) / (bombTime - bombSetDate)) * 100;
-			} else {
-				setStartedBomb(true);
-				setBombTime(addSeconds(Date.now(), gameSettings.bombTime));
-			}
-		}
-
-		if (props.phase === 'defusing') {
-			if (startedDefuse) {
-				const defuseSetDate = addSeconds(
-					defuseTime,
-					props.kit ? -gameSettings.kitDefusedTime : -gameSettings.noKitDefuseTime,
-				);
-				defuseProgress =
-					((Date.now() - defuseSetDate) / (defuseTime - defuseSetDate)) * 100;
-
-				// The bomb needs to be updated too
-				if (startedBomb) {
-					const bombSetDate = addSeconds(bombTime, -gameSettings.bombTime);
-					bombProgress = ((Date.now() - bombSetDate) / (bombTime - bombSetDate)) * 100;
-				}
-			} else {
-				setStartedDefuse(true);
-				setDefuseTime(
-					addSeconds(
-						Date.now(),
-						props.kit ? gameSettings.kitDefusedTime : gameSettings.noKitDefuseTime,
-					),
-				);
-			}
-		}
-
-		if (['exploded', 'defused', 'carried'].includes(props.phase)) {
-			if (startedPlant) setStartedPlant(false);
-			if (startedBomb) setStartedBomb(false);
-			if (startedDefuse) setStartedDefuse(false);
-		}
-
-		const plantColour: React.CSSProperties = {
-			border: `1px solid #fff`, 
-			background: 'rgba(0, 0, 0, 0.5)',
-		};
-
-		const bombColour: React.CSSProperties = {
-			background: `linear-gradient(to left, #F46666, rgba(244, 102, 102, 0.3) 50%)`,
-		};
-
-		const defuseColour: React.CSSProperties = {
-			background: `linear-gradient(to left, #0C7BC0, rgba(12, 123, 192, 0.3) 70%)`,
-		};
-
-		return (
-			<Container className={props.className} ref={ref} style={props.style}>
-				<PlantTimer
-					progressBarStyle={plantColour}
-					progress={props.phase === 'planting' ? plantProgress : 0}
-					style={{ display: props.phase === 'planting' ? '' : 'none' }}
-				/>
-				<BombTimer
-					progress={['planted', 'defusing'].includes(props.phase) ? bombProgress : 0}
-					progressBarStyle={bombColour}
-					style={{
-						border:
-							props.phase === 'planted' || props.phase === 'defusing'
-								? '1px solid white'
-								: 'none',
-						display: ['planted', 'defusing', 'exploded', 'defused'].includes(
-							props.phase,
-						)
-							? ''
-							: 'none',
-						boxSizing: 'border-box',
-					}}
-				/>
-				<DefuseTimer
-					progressBarStyle={defuseColour}
-					progress={props.phase === 'defusing' ? defuseProgress : 0}
-					style={{
-						border: '1px solid transparent',
-						display: ['defusing', 'defused'].includes(props.phase) ? '' : 'none',
-						boxSizing: 'border-box',
-					}}
-				/>
-				<KitImage
-					src={require('../../images/equipment/defuser.svg')}
-					style={{ display: props.kit ? '' : 'none' }}
-				/>
-				<PlayerText kit={props.kit}>
-					{playerConditions.includes(props.phase)
-						? `${props.playerName} ${
-								props.phase === 'defusing' ? 'is defusing' : 'is planting'
-						  }`
-						: ''}
-				</PlayerText>
-				{props.phase === 'planted' || props.phase === 'defusing' ? <TenSecondMark /> : ''}
-			</Container>
-		);
-	},
-);
+	return (
+		<Container className={props.className} ref={containerRef} style={props.style}>
+			<ProgressContainer>
+				<PlantProgress ref={plantRef} />
+				<BombProgress ref={bombRef} />
+				<DefuseProgress ref={defuseRef} />
+			</ProgressContainer>
+			<KitImage
+				src={require('../../images/equipment/defuser.svg')}
+				style={{ display: props.kit ? '' : 'none' }}
+			/>
+			<PlayerText kit={props.kit}>
+				{playerConditions.includes(props.bomb.state)
+					? `${props.playerName} ${props.bomb.state === 'defusing' ? 'is defusing' : 'is planting'}`
+					: ''}
+			</PlayerText>
+			{props.bomb.state === 'planted' || props.bomb.state === 'defusing' ? <TenSecondMark /> : ''}
+		</Container>
+	);
+};
 
 BombPlanted.displayName = 'BombPlanted';

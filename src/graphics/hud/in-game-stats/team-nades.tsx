@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useImperativeHandle, useRef } from 'react';
 import styled from 'styled-components';
 import gsap from 'gsap';
 import { useSelector } from 'react-redux';
@@ -7,6 +7,8 @@ import { stateType } from '../../replicant-store';
 
 import { Grid } from '@material-ui/core';
 import { Grenades } from '../../components/grenades';
+import { ComponentAnimation } from '../../../types/animations';
+import { CSGOPhaseCountdowns } from '../../../types/csgo-gsi';
 
 const Container = styled.div`
 	position: relative;
@@ -47,73 +49,66 @@ interface CT {
 }
 
 interface Props {
+	phase: CSGOPhaseCountdowns['phase'];
 	ct?: boolean;
 	right?: boolean;
 	style?: React.CSSProperties;
 	className?: string;
-	show?: boolean;
 	teamTwo?: boolean;
 }
 
-export const TeamNade: React.FC<Props> = (props: Props) => {
+export const TeamNade = React.forwardRef<ComponentAnimation, Props>((props, ref) => {
 	const teamData = useSelector((state: stateType) => (props.teamTwo ? state.teamTwo : state.teamOne));
-	const tl = useRef<gsap.core.Timeline>();
 	const containerRef = useRef<HTMLDivElement>(null);
 
+	useImperativeHandle(ref, () => ({
+		show() {
+			show();
+		},
+		hide() {
+			hide();
+		},
+	}));
+
 	useEffect(() => {
-		tl.current = gsap.timeline({ paused: true });
+		switch (props.phase) {
+			case 'bomb':
+				const tl = gsap.timeline();
+				tl.call(show);
+				tl.call(hide, [], '+=10');
+				break;
+			case 'freezetime':
+				show();
+				break;
+			default:
+				hide();
+				break;
+		}
+	}, [props.phase]);
 
-		tl.current.addLabel('Show');
-
-		tl.current.set(containerRef.current, {
-			opacity: 0,
-			width: 0,
-			paddingLeft: 0,
-			paddingRight: 0,
-		});
-		tl.current.to(containerRef.current, { opacity: 1, duration: 0.5 });
-		tl.current.to(containerRef.current, {
+	function show() {
+		const tl = gsap.timeline();
+		tl.to(containerRef.current, { opacity: 1, duration: 0.5 });
+		tl.to(containerRef.current, {
 			ease: 'expo.out',
-			width: 349,
+			width: 337,
 			paddingLeft: 5,
 			paddingRight: 5,
 			duration: 1,
 		});
+	}
 
-		tl.current.addPause('+=0.1');
-
-		tl.current.addLabel('Hide');
-
-		tl.current.set(containerRef.current, {
-			opacity: 1,
-			width: 349,
-			paddingLeft: 5,
-			paddingRight: 5,
-		});
-		tl.current.to(containerRef.current, {
+	function hide() {
+		const tl = gsap.timeline();
+		tl.to(containerRef.current, {
 			ease: 'expo.out',
 			width: 0,
 			paddingLeft: 0,
 			paddingRight: 0,
 			duration: 1,
 		});
-		tl.current.to(containerRef.current, { opacity: 0, duration: 0.5 });
-	}, []);
-
-	const goToAnimation = (stage: string): void => {
-		if (tl.current) {
-			const labelTime = tl.current.labels[stage];
-			tl.current.play(labelTime);
-		}
-	};
-
-	useEffect(() => {
-		if (props.show) {
-			goToAnimation('Show');
-		} else {
-			goToAnimation('Hide');
-		}
-	}, [props.show]);
+		tl.to(containerRef.current, { opacity: 0, duration: 0.5 });
+	}
 
 	return (
 		<Container ct={props.ct} style={props.style} className={props.className} ref={containerRef}>
@@ -155,4 +150,4 @@ export const TeamNade: React.FC<Props> = (props: Props) => {
 			</Grid>
 		</Container>
 	);
-};
+});
