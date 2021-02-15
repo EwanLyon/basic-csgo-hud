@@ -28,7 +28,7 @@ export const PlayerShooting: React.FC = () => {
 	}
 
 	useListenFor(
-		'hlae-weaponFire',
+		'hlae:weaponFire',
 		(gameEvent: CSGOManager.HLAE.WeaponFire) => {
 			setCurrentFirings([
 				...currentFirings,

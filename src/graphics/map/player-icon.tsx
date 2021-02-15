@@ -112,7 +112,7 @@ export const PlayerIcon: React.FC<Props> = (props: Props) => {
 	const firingLineRef = useRef<HTMLDivElement>(null);
 
 	useListenFor(
-		'hlae-weaponFire',
+		'hlae:weaponFire',
 		(gameEvent: CSGOManager.HLAE.WeaponFire) => {
 			if (
 				gameEvent.keys.userid.xuid === props.steamId &&
