@@ -12,15 +12,19 @@ const KillfeedContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: flex-end;
-	padding-right: 30px;
 `;
 
-export const Killfeed: React.FC = () => {
+interface Props {
+	className?: string;
+	style?: React.CSSProperties;
+}
+
+export const Killfeed: React.FC<Props> = (props: Props) => {
 	// Const matchKills = useSelector((state: stateType) => state.matchKills);
 	const [currentKills, setCurrentKills] = useState<HLAE.PlayerDeath[]>([]);
 	const round = useSelector((state: stateType) => state.matchStats.round);
 	useListenFor(
-		'hlae-playerDeath',
+		'hlae:playerDeath',
 		(data: HLAE.PlayerDeath) => {
 			setCurrentKills([...currentKills, data]);
 		},
@@ -37,7 +41,7 @@ export const Killfeed: React.FC = () => {
 	// Console.log(matchKills);
 
 	return (
-		<KillfeedContainer>
+		<KillfeedContainer className={props.className} style={props.style}>
 			{currentKills.map((kill, i) => {
 				return <Kill data={kill} key={i} />;
 			})}
