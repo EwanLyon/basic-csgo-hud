@@ -2,13 +2,13 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { HUD } from './HUD';
-// Import { Map } from '../elements/fui/map/map';
+// import { Map } from '../map/map';
 import { store } from '../replicant-store';
 
-// Import {useReplicant} from 'use-nodecg';
+// import {useReplicant} from 'use-nodecg';
 
 const Game: React.FC = () => {
-	// Const [scoreBugWidth] = useReplicant<number, number>('scoreBugWidth', 1920);
+	// const [scoreBugWidth] = useReplicant<number, number>('scoreBugWidth', 1920);
 
 	return (
 		<Provider store={store}>
@@ -16,8 +16,8 @@ const Game: React.FC = () => {
 			{/* <Map
 				style={{
 					position: 'absolute',
-					top: scoreBugWidth < 1150 ? 33 : 110,
-					left: 20,
+					top: scoreBugWidth < 1150 ? 32 : 110,
+					left: 30,
 					transform: 'scale(0.35)',
 					transformOrigin: '0 0',
 				}}
