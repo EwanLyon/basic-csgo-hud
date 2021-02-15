@@ -25,7 +25,7 @@ export const MapApp: React.FunctionComponent = () => {
 					style={{
 						position: 'absolute',
 						top: scoreBugWidth < 1150 ? 33 : 110,
-						left: 20,
+						left: 30,
 						transform: 'scale(0.35)',
 						transformOrigin: '0 0',
 					}}
