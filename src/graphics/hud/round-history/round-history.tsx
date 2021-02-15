@@ -59,12 +59,10 @@ export const RoundHistory = React.forwardRef<ComponentAnimation, Props>((props, 
 				/>,
 			);
 		} else {
-			roundIcons.push(
-				<RoundIcon currentRound={currentRound + 1} round={i} wintype={'empty'} key={i} />,
-			);
+			roundIcons.push(<RoundIcon currentRound={currentRound + 1} round={i} wintype={'empty'} key={i} />);
 		}
 
-		if (i === 15) roundIcons.push(<HalfDivider />);
+		if (i === 15) roundIcons.push(<HalfDivider key={i + 'hd'} />);
 	}
 
 	return (
