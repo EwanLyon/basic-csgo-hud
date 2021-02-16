@@ -17,7 +17,7 @@ const ContainerPlayerIcon = styled.div`
 	z-index: ${(props: PlayerIconStyle) => (props.observed ? 2 : 1)};
 	text-align: center;
 	line-height: ${playerIconWidth}px;
-	color: #000;
+	color: #fff;
 	font-weight: bold;
 	font-size: 25px;
 	box-shadow: 0 0 0 ${(props: PlayerIconStyle) => (props.observed ? '5' : '0')}px white;
@@ -120,7 +120,7 @@ export const PlayerIcon: React.FC<Props> = (props: Props) => {
 			) {
 				firingLineRef.current?.classList.remove('firing-animation');
 				/* eslint-disable-next-line */
-				void firingLineRef.current?.offsetWidth; 
+				void firingLineRef.current?.offsetWidth;
 				firingLineRef.current?.classList.add('firing-animation');
 			}
 		},
@@ -151,6 +151,7 @@ interface BombProps {
 	position: number[];
 	rotation: number;
 	map: MapRadarData;
+	beingObserved?: boolean;
 }
 
 export const CarriedBombIcon: React.FC<BombProps> = (props: BombProps) => {
@@ -159,10 +160,8 @@ export const CarriedBombIcon: React.FC<BombProps> = (props: BombProps) => {
 			style={{
 				left: `${scaleTo100(props.position[0], props.map.xMin, props.map.xMax)}%`,
 				bottom: `${scaleTo100(props.position[1], props.map.yMin, props.map.yMax)}%`,
-				backgroundImage: `url(${(props: PlayerIconStyle) =>
-					props.observed
-						? require('../images/equipment/c4_timer_noflash_sq.png')
-						: require('../images/equipment/c4_timer_noflash_col_sq.png')})`
+				backgroundImage: `url(${require('../images/equipment/c4_timer_noflash_sq.png')})`,
+				filter: props.beingObserved ? '' : 'brightness(0) saturate(100%) var(--t-col-filter)',
 			}}>
 			<FacingArrow
 				style={{

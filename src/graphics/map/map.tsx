@@ -100,6 +100,7 @@ export const Map: React.FC<Props> = (props: Props) => {
 					map={currentMap}
 					rotation={Math.atan2(rotationArray[0], rotationArray[1])}
 					position={posArray}
+					beingObserved={observedPlayerID === player.steamId}
 					key={posArray[0].toString() + player.steamId}
 				/>,
 			);
