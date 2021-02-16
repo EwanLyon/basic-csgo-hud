@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useImperativeHandle, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import gsap from 'gsap';
+
+import { ComponentAnimation } from '../../../types/animations';
 import { stateType } from '../../replicant-store';
 
 const PlayersAliveContainer = styled.div`
@@ -41,9 +44,19 @@ interface Props {
 	style?: React.CSSProperties;
 }
 
-export const PlayersAlive: React.FC<Props> = (props: Props) => {
+export const PlayersAlive = React.forwardRef<ComponentAnimation, Props>((props, ref) => {
+	const containerRef = useRef<HTMLDivElement>(null);
 	const allPlayers = useSelector((state: stateType) => state.allPlayers);
 	const swapTeams = useSelector((state: stateType) => state.swapTeams);
+
+	useImperativeHandle(ref, () => ({
+		show: () => {
+			gsap.to(containerRef.current, { opacity: 1, duration: 1 });
+		},
+		hide: () => {
+			gsap.to(containerRef.current, { opacity: 0, duration: 1 });
+		},
+	}));
 
 	let tPlayers = 0;
 	let ctPlayers = 0;
@@ -58,7 +71,7 @@ export const PlayersAlive: React.FC<Props> = (props: Props) => {
 	});
 
 	return (
-		<PlayersAliveContainer className={props.className} style={props.style}>
+		<PlayersAliveContainer ref={containerRef} className={props.className} style={props.style}>
 			<Title>Players alive</Title>
 			<DataContainer>
 				<Alive ct={swapTeams}>{swapTeams ? ctPlayers : tPlayers}</Alive>
@@ -67,4 +80,4 @@ export const PlayersAlive: React.FC<Props> = (props: Props) => {
 			</DataContainer>
 		</PlayersAliveContainer>
 	);
-};
+});

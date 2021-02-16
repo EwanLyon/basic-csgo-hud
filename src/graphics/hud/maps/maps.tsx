@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useImperativeHandle, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import gsap from 'gsap';
 
+import { ComponentAnimation } from '../../../types/animations';
 import { stateType } from '../../replicant-store';
 
 import { Map } from './map';
@@ -31,16 +33,26 @@ interface Props {
 	style?: React.CSSProperties;
 }
 
-export const Maps: React.FC<Props> = (props: Props) => {
+export const Maps = React.forwardRef<ComponentAnimation, Props>((props, ref) => {
+	const containerRef = useRef<HTMLDivElement>(null);
+	
+	useImperativeHandle(ref, () => ({
+		show: () => {
+			gsap.to(containerRef.current, { opacity: 1, duration: 1 });
+		},
+		hide: () => {
+			gsap.to(containerRef.current, { opacity: 0, duration: 1 });
+		},
+	}));
 	const currentMatch = useSelector((state: stateType) => state.currentMatch);
 
-	if (!currentMatch) return <></>;
+	if (!currentMatch || currentMatch.maps.length === 0) return <></>;
 
 	const pickedMaps = currentMatch.maps.filter((map) => !map.ban);
 	const mapEls = pickedMaps.map((map) => <Map key={map.map} matchData={currentMatch} map={map} />);
 
 	return (
-		<MapsContainer className={props.className} style={props.style}>
+		<MapsContainer ref={containerRef} className={props.className} style={props.style}>
 			<Titles>
 				<div style={{width: 100}} />
 				<span>Picked</span>
@@ -50,4 +62,4 @@ export const Maps: React.FC<Props> = (props: Props) => {
 			{mapEls}
 		</MapsContainer>
 	);
-};
+});

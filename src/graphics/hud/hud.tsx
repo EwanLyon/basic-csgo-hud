@@ -19,6 +19,7 @@ import { TeamNade } from './in-game-stats/team-nades';
 import { Killfeed } from './killfeed/killfeed';
 import { RoundHistory } from './round-history/round-history';
 import { PlayersAlive } from './players-alive/players-alive';
+import { Maps } from './maps/maps';
 
 const Container = styled.div`
 	position: absolute;
@@ -26,6 +27,8 @@ const Container = styled.div`
 	height: 1080px;
 	overflow: hidden;
 	font-family: Roboto;
+	border-bottom: 1px solid black;
+	border-right: 1px solid black;
 `;
 
 const TopCentered = styled.div`
@@ -112,6 +115,8 @@ export const HUD: React.FunctionComponent = () => {
 	});
 	const scoreBugRef = useRef<HTMLDivElement>(null);
 	const roundHistoryRef = useRef<ComponentAnimation>(null);
+	const playersAliveRef = useRef<ComponentAnimation>(null);
+	const mapsRef = useRef<ComponentAnimation>(null);
 	const leftTeamEcoRef = useRef<ComponentAnimation>(null);
 	const rightTeamEcoRef = useRef<ComponentAnimation>(null);
 	const leftTeamNadesRef = useRef<ComponentAnimation>(null);
@@ -137,6 +142,18 @@ export const HUD: React.FunctionComponent = () => {
 			rightTeamNadesRef?.current?.hide();
 		}
 	}, [producerRep]);
+
+	useEffect(() => {
+		if (phase === 'freezetime') {
+			roundHistoryRef?.current?.show();
+			mapsRef?.current?.show();
+			playersAliveRef?.current?.hide();
+		} else {
+			roundHistoryRef?.current?.hide();
+			mapsRef?.current?.hide();
+			playersAliveRef?.current?.show();
+		}
+	}, [phase]);
 
 	const leftPlayers: JSX.Element[] = [];
 	const rightPlayers: JSX.Element[] = [];
@@ -171,7 +188,8 @@ export const HUD: React.FunctionComponent = () => {
 				<RoundHistory ref={roundHistoryRef} />
 			</TopCentered>
 
-			<PlayersAlive style={{ position: 'absolute', top: 30, right: 30 }} />
+			<PlayersAlive ref={playersAliveRef} style={{ position: 'absolute', top: 32, right: 30 }} />
+			<Maps ref={mapsRef} style={{ position: 'absolute', top: 32, right: 30 }} />
 
 			<LeftSide>{leftPlayers}</LeftSide>
 			<RightSide>{rightPlayers}</RightSide>
@@ -194,7 +212,7 @@ export const HUD: React.FunctionComponent = () => {
 
 			<Current />
 
-			<Killfeed />
+			<Killfeed style={{position: 'absolute', top: 100, right: 30}} />
 		</Container>
 	);
 };
