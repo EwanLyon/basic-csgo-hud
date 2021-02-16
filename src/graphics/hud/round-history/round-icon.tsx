@@ -17,7 +17,8 @@ const SizedIcon = styled(OtherIcons)`
 	width: 100%;
 	height: 20px;
 	object-fit: contain;
-	filter: ${(props: StyleProps) => (props.ct ? 'var(--ct-col-filter)' : 'var(--t-col-filter)')};
+	filter: ${(props: StyleProps) =>
+		props.ct ? 'var(--ct-col-filter)' : 'brightness(0) saturate(100%) var(--t-col-filter)'};
 `;
 
 const SimpleIcon = styled.div`
@@ -94,9 +95,7 @@ export const RoundIcon: React.FC<Props> = (props) => {
 		<RoundIconContainer className={props.className} style={props.style}>
 			{icon}
 			<RoundBorder active={props.round === props.currentRound} />
-			<RoundNumber active={props.round % 5 === 0 || props.round === 1}>
-				{props.round}
-			</RoundNumber>
+			<RoundNumber active={props.round % 5 === 0 || props.round === 1}>{props.round}</RoundNumber>
 		</RoundIconContainer>
 	);
 };
