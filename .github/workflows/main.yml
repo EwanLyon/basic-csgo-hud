@@ -23,7 +23,14 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Checkout NodeCG Manager
+        uses: actions/checkout@v2
+        with:
+          repository: EwanLyon/nodecg-csgo-manager
+          path: nodecg-csgo-manager
         
       # Install NodeJS and NPM
       - uses: actions/setup-node@v1
