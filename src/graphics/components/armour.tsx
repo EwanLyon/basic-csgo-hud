@@ -1,8 +1,8 @@
 import React from 'react';
 
 const armourImages = {
-	helmet: require('../images/equipment/ArmourHelmet.svg'),
-	normal: require('../images/equipment/Armour.svg'),
+	helmet: require('../images/equipment/armour_helmet.svg'),
+	normal: require('../images/equipment/armour.svg'),
 };
 
 interface Props {

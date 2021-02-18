@@ -185,7 +185,7 @@ export const HealthBar: React.FunctionComponent<Props> = (props: Props) => {
 				<div style={{ display: 'flex' }}>
 					<HealthArmourRaw>
 						{/* Health */}
-						<HealthImg src={require('../../images/misc/Health.svg')} />
+						<HealthImg src={require('../../images/misc/health.svg')} />
 						<span>{props.health}</span>
 					</HealthArmourRaw>
 					<HealthArmourRaw>
