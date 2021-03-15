@@ -48,7 +48,7 @@ export const RoundHistory = React.forwardRef<ComponentAnimation, Props>((props, 
 	const roundIcons = [];
 
 	for (let i = 1; i < 31; i++) {
-		if (roundWins[i]) {
+		if (roundWins && roundWins[i]) {
 			roundIcons.push(
 				<RoundIcon
 					currentRound={currentRound + 1}
