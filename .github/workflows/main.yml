@@ -45,7 +45,7 @@ jobs:
       - name: Build bundle
         run: |
           npm run build --if-present
-          zip -r nodecg-csgo-manager.zip package.json package-lock.json gamestate_integration_nodecg.cfg dashboard extension docs shared configschema.json README.md LICENSE node_modules
+          zip -r basic-csgo-hud.zip package.json package-lock.json dashboard extension graphics docs shared configschema.json README.md LICENSE node_modules
         working-directory: ./main
 
       - name: Build Changelog
@@ -71,6 +71,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./main/nodecg-csgo-manager.zip
-          asset_name: nodecg-csgo-manager.zip
+          asset_path: ./main/basic-csgo-hud.zip
+          asset_name: basic-csgo-hud.zip
           asset_content_type: application/zip
