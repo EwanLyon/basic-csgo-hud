@@ -14,7 +14,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 For killfeed and player firing indicators on the mini map:
 
-* [HLAE](https://www.advancedfx.org/download/) I recommed understanding what this program does if you haven't used it before
+* [HLAE](https://www.advancedfx.org/download/) I recommend understanding what this program does if you haven't used it before
 
 ### Installing
 
