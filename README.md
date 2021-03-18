@@ -18,7 +18,12 @@ For killfeed and player firing indicators on the mini map:
 
 ### Installing
 
-A GitHub action is planned to be made. Currently you have to manually build
+### Installation
+
+1. Download from [releases](https://github.com/EwanLyon/basic-csgo-hud/releases).
+2. Extract to the nodecg bundles folder so that the file structure is `nodecg/bundles/basic-csgo-hud/...`
+
+#### Building for development
 
 1. Clone the repo into the NodeCG bundles folder
 
